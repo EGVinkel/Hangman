@@ -3,11 +3,11 @@ package com.vinkel.emil.the_hangmans_game;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class Hovedmenu extends AppCompatActivity {
+public class Hovedmenu_akt extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hovedmenu);
+        setContentView(R.layout.activity_hovedmenu_akt);
     }
 }
