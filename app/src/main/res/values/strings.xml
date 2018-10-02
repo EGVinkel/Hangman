@@ -4,5 +4,6 @@
     <string name="play">Play the game</string>
     <string name="highscore">View the highscore</string>
     <string name="help">Press for help!</string>
-
+    <string name="helpscreen">How to play the game!</string>
+    <string name="english">English</string>
 </resources>
