@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">The_Hangmans_Game</string>
+    <string name="welcoming">Welcome to the Hangman´s game</string>
+    <string name="play">Play the game</string>
+    <string name="highscore">View the highscore</string>
+    <string name="help">Press for help!</string>
+
 </resources>
