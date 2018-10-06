@@ -20,8 +20,8 @@
                 android:top="0dp" />
 
             <size
-                android:height="60dp"
-                android:width="270dp" />
+                android:height="30dp"
+                android:width="30dp" />
 
         </shape>
     </item>
@@ -45,8 +45,8 @@
                 android:top="0dp" />
 
             <size
-                android:height="60dp"
-                android:width="270dp" />
+                android:height="30dp"
+                android:width="30dp" />
 
         </shape>
     </item>
