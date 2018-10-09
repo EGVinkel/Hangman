@@ -1,4 +1,6 @@
 package com.vinkel.emil.the_hangmans_game;
+import android.app.Dialog;
+import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -6,17 +8,13 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
-import static java.util.concurrent.TimeUnit.*;
 
 
 public class GameFragment extends Fragment implements View.OnClickListener {
@@ -61,8 +59,6 @@ public class GameFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-
-
 
 
         for(int i = 0 ; i < buttons.length ; i++){
@@ -132,28 +128,16 @@ public class GameFragment extends Fragment implements View.OnClickListener {
     private void opdaterSkærm() {
         infoomordet.setText("Guess:" +"\n" + logik.getSynligtOrd());
         infobogstaver.setText("\nYou have " + logik.getAntalForkerteBogstaver() + " wrong guesses:" + logik.getForkertebogstaver());
-        Timer timer= new Timer();
+
 
 
         if (logik.erSpilletVundet()) {
-            infoomordet.setText("\n You have won! \n Game is restarting.");
-            timer.schedule(new TimerTask(){
-                @Override
-                public void run(){
-                    restartGame();
-                }
-            },100);
+            showMyCustomDialog(getContext(),"You have won! the word was:\n" + logik.getOrdet());
 
         }
         if (logik.erSpilletTabt()) {
-            infoomordet.setText("You have lost, the word was:\n" + logik.getOrdet() + "\n Game is restarting.");
+            showMyCustomDialog(getContext(),"You have lost, the word was:\n" + logik.getOrdet());
 
-            timer.schedule(new TimerTask(){
-                @Override
-                public void run(){
-                    restartGame();
-                }
-            },100);
 
         }
     }
@@ -168,5 +152,31 @@ public class GameFragment extends Fragment implements View.OnClickListener {
         ft.commit();
 
 
+    }
+    public void showMyCustomDialog(Context context, String message)
+    {
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.popup);
+        TextView titleText =  dialog.findViewById(R.id.titlepop);
+        titleText.setText(message);
+        Button dialogButton = dialog.findViewById(R.id.playagain);
+        dialogButton.setOnClickListener(new View.OnClickListener()
+
+        {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                Timer timer= new Timer();
+                timer.schedule(new TimerTask(){
+                    @Override
+                    public void run(){
+                        restartGame();
+                    }
+                },100);
+
+            }
+        });
+        dialog.show();
     }
 }
