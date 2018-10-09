@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="true">
+    <item android:drawable="@drawable/gallowshoved0" android:duration="150" />
+    <item android:drawable="@drawable/gallowshoved1" android:duration="150" />
+    <item android:drawable="@drawable/gallowshoved2" android:duration="150" />
+    <item android:drawable="@drawable/gallowshoved3" android:duration="150" />
+    <item android:drawable="@drawable/gallowshoved4" android:duration="150" />
+    <item android:drawable="@drawable/gallowshoved05" android:duration="150" />
+    <item android:drawable="@drawable/gallowshoved06" android:duration="150" />
+    <item android:drawable="@drawable/gallowshoved07" android:duration="150" />
+    <item android:drawable="@drawable/gallowshoved08" android:duration="150" />
+    <item android:drawable="@drawable/gallowshoved09" android:duration="150" />
+    <item android:drawable="@drawable/gallowshoved10" android:duration="150" />
+    <item android:drawable="@drawable/gallowshoved12" android:duration="150" />
+    <item android:drawable="@drawable/gallowshoved13" android:duration="150" />
+    <item android:drawable="@drawable/gallowshoved14" android:duration="150" />
+    <item android:drawable="@drawable/gallowshoved15" android:duration="150" />
+    <item android:drawable="@drawable/gallowshoved16" android:duration="150" />
+    <item android:drawable="@drawable/gallowshoved17" android:duration="150" />
+    <item android:drawable="@drawable/gallowshoved18" android:duration="150" />
+    <item android:drawable="@drawable/gallowshoved19" android:duration="150" />
+</animation-list>

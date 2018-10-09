@@ -10,36 +10,93 @@
     tools:layout_editor_absoluteY="25dp">
 
 
-    <ToggleButton
-        android:id="@+id/a"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@drawable/alphabetebutton"
-        android:textOff="a"
-        android:textOn="a"
-        tools:layout_editor_absoluteX="30dp"
-        tools:layout_editor_absoluteY="221dp" />
-
-    <TableLayout
-        android:layout_width="396dp"
-        android:layout_height="152dp"
+    <TextView
+        android:id="@+id/gameinfo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="84dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:autoSizeTextType="uniform"
+        android:textAlignment="viewStart"
+        app:layout_constraintBottom_toTopOf="@+id/guideline5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline6" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.60" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.333333333333" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline5">
 
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/linearLayouta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ToggleButton
+                android:id="@+id/a"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeTextType="uniform"
+                android:background="@drawable/alphabetebutton"
+                android:textOff="a"
+                android:textOn="a"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteY="146dp" />
+
+            <ToggleButton
+                android:id="@+id/b"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeTextType="uniform"
+                android:background="@drawable/alphabetebutton"
+                android:textOff="b"
+                android:textOn="b"
+                tools:layout_editor_absoluteX="82dp"
+                tools:layout_editor_absoluteY="42dp" />
+
+            <ToggleButton
+                android:id="@+id/c"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeTextType="uniform"
+                android:background="@drawable/alphabetebutton"
+                android:textOff="c"
+                android:textOn="c"
+                tools:layout_editor_absoluteX="205dp"
+                tools:layout_editor_absoluteY="42dp" />
 
             <ToggleButton
                 android:id="@+id/d"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeTextType="uniform"
                 android:background="@drawable/alphabetebutton"
                 android:textOff="d"
                 android:textOn="d"
@@ -48,8 +105,10 @@
 
             <ToggleButton
                 android:id="@+id/e"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeTextType="uniform"
                 android:background="@drawable/alphabetebutton"
                 android:textOff="e"
                 android:textOn="e"
@@ -58,8 +117,10 @@
 
             <ToggleButton
                 android:id="@+id/f"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeTextType="uniform"
                 android:background="@drawable/alphabetebutton"
                 android:textOff="f"
                 android:textOn="f"
@@ -68,18 +129,31 @@
 
             <ToggleButton
                 android:id="@+id/g"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeTextType="uniform"
                 android:background="@drawable/alphabetebutton"
                 android:textOff="g"
                 android:textOn="g"
                 tools:layout_editor_absoluteX="37dp"
                 tools:layout_editor_absoluteY="350dp" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayouth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
             <ToggleButton
                 android:id="@+id/h"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeTextType="uniform"
                 android:background="@drawable/alphabetebutton"
                 android:textOff="h"
                 android:textOn="h"
@@ -88,8 +162,10 @@
 
             <ToggleButton
                 android:id="@+id/i"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeTextType="uniform"
                 android:background="@drawable/alphabetebutton"
                 android:textOff="i"
                 android:textOn="i"
@@ -98,8 +174,10 @@
 
             <ToggleButton
                 android:id="@+id/j"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeTextType="uniform"
                 android:background="@drawable/alphabetebutton"
                 android:textOff="j"
                 android:textOn="j"
@@ -108,83 +186,104 @@
 
             <ToggleButton
                 android:id="@+id/k"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeTextType="uniform"
                 android:background="@drawable/alphabetebutton"
+                android:textAllCaps="true"
                 android:textOff="k"
                 android:textOn="k"
                 tools:layout_editor_absoluteX="37dp"
                 tools:layout_editor_absoluteY="350dp" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
             <ToggleButton
                 android:id="@+id/l"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeTextType="uniform"
                 android:background="@drawable/alphabetebutton"
                 android:textOff="l"
                 android:textOn="l"
-                tools:layout_editor_absoluteX="37dp"
-                tools:layout_editor_absoluteY="350dp" />
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteY="211dp" />
 
             <ToggleButton
                 android:id="@+id/m"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeTextType="uniform"
                 android:background="@drawable/alphabetebutton"
                 android:textOff="m"
                 android:textOn="m"
-                tools:layout_editor_absoluteX="37dp"
-                tools:layout_editor_absoluteY="350dp" />
+                tools:layout_editor_absoluteX="153dp"
+                tools:layout_editor_absoluteY="124dp" />
 
             <ToggleButton
                 android:id="@+id/n"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeTextType="uniform"
                 android:background="@drawable/alphabetebutton"
                 android:textOff="n"
                 android:textOn="n"
-                tools:layout_editor_absoluteX="37dp"
-                tools:layout_editor_absoluteY="350dp" />
+                tools:layout_editor_absoluteX="216dp"
+                tools:layout_editor_absoluteY="131dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayouto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <ToggleButton
                 android:id="@+id/o"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeTextType="uniform"
                 android:background="@drawable/alphabetebutton"
                 android:textOff="o"
                 android:textOn="o"
-                tools:layout_editor_absoluteX="37dp"
-                tools:layout_editor_absoluteY="350dp" />
+                tools:layout_editor_absoluteX="56dp"
+                tools:layout_editor_absoluteY="131dp" />
 
             <ToggleButton
                 android:id="@+id/p"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeTextType="uniform"
                 android:background="@drawable/alphabetebutton"
                 android:textOff="p"
                 android:textOn="p"
-                tools:layout_editor_absoluteX="37dp"
-                tools:layout_editor_absoluteY="350dp" />
+                tools:layout_editor_absoluteX="285dp"
+                tools:layout_editor_absoluteY="91dp" />
 
             <ToggleButton
                 android:id="@+id/q"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeTextType="uniform"
                 android:background="@drawable/alphabetebutton"
                 android:textOff="q"
                 android:textOn="q"
-                tools:layout_editor_absoluteX="37dp"
-                tools:layout_editor_absoluteY="350dp" />
+                tools:layout_editor_absoluteX="137dp"
+                tools:layout_editor_absoluteY="67dp" />
 
             <ToggleButton
                 android:id="@+id/r"
-                android:layout_width="33dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeTextType="uniform"
                 android:background="@drawable/alphabetebutton"
                 android:textOff="r"
                 android:textOn="r"
@@ -193,8 +292,10 @@
 
             <ToggleButton
                 android:id="@+id/s"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeTextType="uniform"
                 android:background="@drawable/alphabetebutton"
                 android:textOff="s"
                 android:textOn="s"
@@ -203,8 +304,10 @@
 
             <ToggleButton
                 android:id="@+id/t"
-                android:layout_width="33dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeTextType="uniform"
                 android:background="@drawable/alphabetebutton"
                 android:textOff="t"
                 android:textOn="t"
@@ -213,105 +316,156 @@
 
             <ToggleButton
                 android:id="@+id/u"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeTextType="uniform"
                 android:background="@drawable/alphabetebutton"
                 android:textOff="u"
                 android:textOn="u"
                 tools:layout_editor_absoluteX="37dp"
                 tools:layout_editor_absoluteY="350dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ToggleButton
+                android:id="@+id/toggleButton2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="false"
+                android:text="ToggleButton"
+                android:visibility="invisible" />
 
             <ToggleButton
                 android:id="@+id/v"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeTextType="uniform"
                 android:background="@drawable/alphabetebutton"
                 android:textOff="v"
                 android:textOn="v"
                 tools:layout_editor_absoluteX="40dp"
                 tools:layout_editor_absoluteY="350dp" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
             <ToggleButton
                 android:id="@+id/w"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeTextType="uniform"
                 android:background="@drawable/alphabetebutton"
                 android:textOff="w"
                 android:textOn="w"
-                tools:layout_editor_absoluteX="40dp"
-                tools:layout_editor_absoluteY="350dp" />
+                tools:layout_editor_absoluteX="113dp"
+                tools:layout_editor_absoluteY="187dp" />
 
             <ToggleButton
                 android:id="@+id/x"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeTextType="uniform"
                 android:background="@drawable/alphabetebutton"
                 android:textOff="x"
                 android:textOn="x"
-                tools:layout_editor_absoluteX="37dp"
-                tools:layout_editor_absoluteY="350dp" />
+                tools:layout_editor_absoluteX="245dp"
+                tools:layout_editor_absoluteY="171dp" />
 
             <ToggleButton
                 android:id="@+id/y"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeTextType="uniform"
                 android:background="@drawable/alphabetebutton"
                 android:textOff="y"
                 android:textOn="y"
-                tools:layout_editor_absoluteX="37dp"
-                tools:layout_editor_absoluteY="350dp" />
+                tools:layout_editor_absoluteX="177dp"
+                tools:layout_editor_absoluteY="211dp" />
 
             <ToggleButton
                 android:id="@+id/z"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeTextType="uniform"
                 android:background="@drawable/alphabetebutton"
                 android:textOff="z"
                 android:textOn="z"
-                tools:layout_editor_absoluteX="37dp"
-                tools:layout_editor_absoluteY="350dp" />
-        </TableRow>
+                tools:layout_editor_absoluteX="292dp"
+                tools:layout_editor_absoluteY="211dp" />
 
-    </TableLayout>
+            <ToggleButton
+                android:id="@+id/toggleButton3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="false"
+                android:text="ToggleButton"
+                android:visibility="invisible" />
+        </LinearLayout>
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="152dp"
-        android:layout_height="64dp"
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.20" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.80" />
+
+    <ImageView
+        android:id="@+id/animationwindow"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="252dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline6"
+        app:layout_constraintEnd_toStartOf="@+id/guideline9"
+        app:layout_constraintStart_toStartOf="@+id/guideline8"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/wrongletters"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:textAlignment="textStart"
+        app:layout_constraintBottom_toTopOf="@+id/guideline6"
+        app:layout_constraintEnd_toStartOf="@+id/guideline8"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <ToggleButton
-        android:id="@+id/b"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@drawable/alphabetebutton"
-        android:textOff="b"
-        android:textOn="b"
-        tools:layout_editor_absoluteX="84dp"
-        tools:layout_editor_absoluteY="162dp" />
-
-    <ToggleButton
-        android:id="@+id/c"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@drawable/alphabetebutton"
-        android:textOff="c"
-        android:textOn="c"
-        tools:layout_editor_absoluteX="141dp"
-        tools:layout_editor_absoluteY="141dp" />
+    <Button
+        android:id="@+id/button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Button"
+        app:layout_constraintBottom_toTopOf="@+id/guideline6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline9"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

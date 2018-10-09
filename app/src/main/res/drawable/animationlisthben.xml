@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="true">
+    <item android:drawable="@drawable/gallowshben1" android:duration="150" />
+    <item android:drawable="@drawable/gallowshben2" android:duration="150" />
+    <item android:drawable="@drawable/gallowshben3" android:duration="150" />
+    <item android:drawable="@drawable/gallowshben4" android:duration="150" />
+    <item android:drawable="@drawable/gallowshben5" android:duration="150" />
+    <item android:drawable="@drawable/gallowshben6" android:duration="150" />
+    <item android:drawable="@drawable/gallowshben7" android:duration="150" />
+    <item android:drawable="@drawable/gallowshben8" android:duration="150" />
+
+
+</animation-list>

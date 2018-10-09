@@ -48,6 +48,5 @@
                 android:height="30dp"
                 android:width="30dp" />
 
-        </shape>
-    </item>
+        </shape>    </item>
 </ripple>

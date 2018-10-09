@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="true">
+    <item android:drawable="@drawable/gallowskrop1" android:duration="150" />
+    <item android:drawable="@drawable/gallowskrop2" android:duration="150" />
+    <item android:drawable="@drawable/gallowskrop3" android:duration="150" />
+    <item android:drawable="@drawable/gallowskrop4" android:duration="150" />
+    <item android:drawable="@drawable/gallowskrop5" android:duration="150" />
+    <item android:drawable="@drawable/gallowskrop6" android:duration="150" />
+    <item android:drawable="@drawable/gallowskrop7" android:duration="150" />
+    <item android:drawable="@drawable/gallowskrop8" android:duration="150" />
+    <item android:drawable="@drawable/gallowskrop9" android:duration="150" />
+    <item android:drawable="@drawable/gallowskrop10" android:duration="150" />
+
+</animation-list>

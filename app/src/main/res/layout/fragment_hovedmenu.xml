@@ -13,52 +13,87 @@
     tools:layout_editor_absoluteY="25dp">
 
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:contentDescription="velkomstbillede"
+        app:layout_constraintBottom_toTopOf="@+id/guideline15"
+        app:layout_constraintEnd_toStartOf="@+id/guideline12"
+        app:layout_constraintStart_toStartOf="@+id/guideline11"
+        app:layout_constraintTop_toTopOf="@+id/guideline14"
+        app:srcCompat="@drawable/hang" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintGuide_percent="0.10" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.90" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.20" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.95" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.05" />
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline14"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintTop_toTopOf="@+id/guideline16">
 
         <Button
             android:id="@+id/playbutton"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_weight="0.7"
+            android:layout_marginBottom="8dp"
+            android:autoSizeTextType="uniform"
             android:background="@drawable/rippfect"
             android:baselineAligned="false"
             android:fontFamily="@font/creepster"
             android:text="@string/play"
-            android:textColor="@android:color/background_dark"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@android:color/background_light"
+            app:layout_constraintBottom_toTopOf="@+id/guideline14"
+            app:layout_constraintEnd_toStartOf="@+id/guideline12"
+            app:layout_constraintStart_toStartOf="@+id/guideline11"
+            app:layout_constraintTop_toTopOf="@+id/guideline16"
             tools:elevation="@android:dimen/app_icon_size" />
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.1"
-            android:layout_marginTop="10dp"
-            android:contentDescription="velkomstbillede"
-            app:srcCompat="@drawable/hang"
-            tools:layout_editor_absoluteX="192dp" />
-
-    </LinearLayout>
+    </FrameLayout>
 
 
 </android.support.constraint.ConstraintLayout>

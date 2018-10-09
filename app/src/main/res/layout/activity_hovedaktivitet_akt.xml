@@ -9,61 +9,52 @@
     tools:context=".Hovedaktivitet_akt"
     tools:layout_editor_absoluteY="25dp">
 
-    <Button
-        android:id="@+id/mainmenu"
-        android:layout_width="119dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="8dp"
-        android:layout_weight="1"
-        android:background="@drawable/rippfect"
-        android:fontFamily="@font/creepster"
-        android:text="@string/mainmenu"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
     <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:fontFamily="@font/creepster"
         android:text="@string/welcoming"
-        android:textColor="@color/colorPrimary"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textAlignment="center"
+        android:textColor="@android:color/background_light"
+        android:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
         app:layout_constraintTop_toTopOf="parent" />
 
 
     <pl.droidsonroids.gif.GifImageView
         android:id="@+id/gifImageView2"
-        android:layout_width="103dp"
-        android:layout_height="66dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:src="@drawable/finalnoose"
-        app:layout_constraintEnd_toStartOf="@+id/mainmenu"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <pl.droidsonroids.gif.GifImageView
         android:id="@+id/gifImageView"
-        android:layout_width="102dp"
-        android:layout_height="66dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:src="@drawable/finalnoose"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/mainmenu"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintStart_toStartOf="@+id/guideline4"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
         android:id="@+id/frameLayout"
@@ -73,10 +64,10 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gifImageView">
+        app:layout_constraintTop_toTopOf="@+id/guideline2">
 
         <fragment
             android:id="@+id/mainactfragment"
@@ -90,27 +81,47 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="302dp"
-        android:layout_height="35dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline">
+
+        <Button
+            android:id="@+id/mainmenu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="2dp"
+            android:layout_weight="1"
+            android:background="@drawable/rippfect"
+            android:fontFamily="@font/creepster"
+            android:text="@string/mainmenu"
+            android:autoSizeTextType="uniform"
+            tools:layout_editor_absoluteX="121dp"
+            tools:layout_editor_absoluteY="63dp" />
 
         <Button
             android:id="@+id/highscorebutton"
-            android:layout_width="102dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="2dp"
             android:layout_weight="1"
             android:background="@drawable/rippfect"
             android:fontFamily="@font/creepster"
             android:text="@string/highscore"
-            android:textSize="18sp"
+            android:autoSizeTextType="uniform"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="451dp"
 
@@ -118,32 +129,64 @@
 
         <Button
             android:id="@+id/helpbutton"
-            android:layout_width="74dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="2dp"
             android:layout_weight="1"
             android:background="@drawable/rippfect"
             android:fontFamily="@font/creepster"
             android:text="@string/help"
-            android:textSize="18sp"
+            android:autoSizeTextType="uniform"
             tools:layout_editor_absoluteX="260dp"
             tools:layout_editor_absoluteY="466dp" />
 
         <Button
             android:id="@+id/settings"
-            android:layout_width="78dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="2dp"
             android:layout_weight="1"
             android:background="@drawable/rippfect"
             android:fontFamily="@font/creepster"
             android:text="@string/settings"
-            android:textSize="18sp"
+            android:autoSizeTextType="uniform"
             tools:layout_editor_absoluteX="153dp"
             tools:layout_editor_absoluteY="451dp" />
     </LinearLayout>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.90" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.15" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.15" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.85" />
 
 
 </android.support.constraint.ConstraintLayout>
