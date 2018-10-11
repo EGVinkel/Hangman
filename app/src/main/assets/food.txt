@@ -1,0 +1,1 @@
+pizza,burger,bacon,berry,bread,fruit,bagel,biscuit,carrot,chow,cranberry,cashew,chutney,cream,cheese,cinnamon,crepe, foie-gras, thyme,chives, sausages, salami, turkey,apple,artichoke,asparagus,avocado,beansprouts,broccoli,cauliflower,celery,pumpkin,mushroom,leek,garlic,lettuce,peas,radish,turnip,spinach,butter,cornflakes,porridge,jam,ketchup

@@ -1,7 +1,13 @@
 package com.vinkel.emil.the_hangmans_game;
 
+import android.content.Context;
+import android.content.res.AssetManager;
+
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
@@ -20,6 +26,7 @@ public class Galgelogik {
   private boolean sidsteBogstavVarKorrekt;
   private boolean spilletErVundet;
   private boolean spilletErTabt;
+
 
 
   public ArrayList<String> getBrugteBogstaver() {
@@ -56,19 +63,32 @@ public class Galgelogik {
 
 
   public Galgelogik() {
-    muligeOrd.add("bil");
-    muligeOrd.add("computer");
-    muligeOrd.add("programmering");
-    muligeOrd.add("motorvej");
-    muligeOrd.add("busrute");
-    muligeOrd.add("gangsti");
-    muligeOrd.add("skovsnegl");
-    muligeOrd.add("solsort");
-    muligeOrd.add("seksten");
-    muligeOrd.add("sytten");
-    muligeOrd.add("atten");
 
-    nulstil();
+  }
+  //tilføjer mulige ord til arrayet fra text fil ud fra en valgt kategori. @author emil_
+  public void categories(String choosecategory, Context context){
+    try{
+
+
+        InputStream is=(context.getAssets().open(choosecategory));
+
+
+      BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+      String line = reader.readLine();
+
+      while(line != null) {
+        String[] wordsLine = line.split(",");
+        for(String word : wordsLine) {
+          muligeOrd.add(word);
+        }
+        line = reader.readLine();
+      }
+        nulstil();
+    } catch (Exception e) {
+      throw new RuntimeException(
+              "This should never happen, I know this file exists", e);
+    }
+
   }
 
   public void nulstil() {
@@ -85,8 +105,11 @@ public class Galgelogik {
   private void opdaterSynligtOrd() {
     synligtOrd = "";
     spilletErVundet = true;
+    brugteBogstaver.add("-");
+
     for (int n = 0; n < ordet.length(); n++) {
       String bogstav = ordet.substring(n, n + 1);
+
       if (brugteBogstaver.contains(bogstav)) {
         synligtOrd = synligtOrd + bogstav;
       } else {
