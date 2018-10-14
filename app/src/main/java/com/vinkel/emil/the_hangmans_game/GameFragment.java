@@ -1,12 +1,13 @@
 package com.vinkel.emil.the_hangmans_game;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,13 +18,16 @@ import android.widget.TextView;
 
 
 
-public class GameFragment extends Fragment implements View.OnClickListener {
+public class GameFragment extends android.app.Fragment implements View.OnClickListener {
 
     Galgelogik logik = new Galgelogik();
     private TextView infoomordet;
     private ImageView aniview;
     private TextView infobogstaver;
     private AnimationDrawable hovedAnimation;
+    private SharedPreferences prefs;
+    private boolean soundact;
+    private Bundle restartgamebundle;
 
     Button a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z;
     Button[] buttons = {a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z};
@@ -35,13 +39,22 @@ public class GameFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View gamefragment = inflater.inflate(R.layout.fragment_game, container, false);
+        setRetainInstance(true);
         for (int iterator = 0; iterator < buttons.length; iterator++) {
             buttons[iterator] = gamefragment.findViewById(idList[iterator]);
             buttons[iterator].setOnClickListener(this);
 
         }
-        String choice = getArguments().getString("cat");
-        logik.categories(choice,getContext());
+        //Hent lydeffecter til/fra
+        prefs= PreferenceManager.getDefaultSharedPreferences(getActivity());
+        soundact=prefs.getBoolean("pref_sound",true);
+
+        logik.categoriesAndDifficulty((Enum)getArguments().getSerializable("cat"),(Enum)getArguments().getSerializable("dif"),getActivity());
+        restartgamebundle=new Bundle();
+        //adds category to restart
+        restartgamebundle.putSerializable("cat",getArguments().getSerializable("cat"));
+        //adds difficulty to restart
+        restartgamebundle.putSerializable("dif",getArguments().getSerializable("dif"));
         infoomordet = gamefragment.findViewById(R.id.gameinfo);
         infoomordet.setText("Guess:" + "\n" + logik.getSynligtOrd());
         infobogstaver = gamefragment.findViewById(R.id.wrongletters);
@@ -128,18 +141,27 @@ public class GameFragment extends Fragment implements View.OnClickListener {
 
         if (logik.erSpilletVundet()) {
             String won = "You have won! the word was:\n" + logik.getOrdet().substring(0,1).toUpperCase()+ logik.getOrdet().substring(1).toLowerCase();
-            MediaPlayer winningsound1= MediaPlayer.create(getActivity(),R.raw.cheering);
-            MediaPlayer winningsound2= MediaPlayer.create(getActivity(),R.raw.crowdapplause1);
-            winningsound1.start();
-            winningsound2.start();
+
+            if(soundact) {
+                MediaPlayer winningsound1 = MediaPlayer.create(getActivity(), R.raw.cheering);
+                MediaPlayer winningsound2 = MediaPlayer.create(getActivity(), R.raw.crowdapplause1);
+                winningsound1.start();
+                winningsound2.start();
+            }
             endOfGameDialog(won);
 
 
         }
         if (logik.erSpilletTabt()) {
-            String lost= "You have lost, the word was:\n" + logik.getOrdet().substring(0,1).toUpperCase()+ logik.getOrdet().substring(1).toLowerCase();
-            MediaPlayer winningsound= MediaPlayer.create(getActivity(),R.raw.boo3);
-            winningsound.start();
+
+
+            String lost = "You have lost, the word was:\n" + logik.getOrdet().substring(0, 1).toUpperCase() + logik.getOrdet().substring(1).toLowerCase();
+
+            if(soundact) {
+
+                MediaPlayer winningsound = MediaPlayer.create(getActivity(), R.raw.boo3);
+                winningsound.start();
+            }
             endOfGameDialog(lost);
 
 
@@ -148,12 +170,14 @@ public class GameFragment extends Fragment implements View.OnClickListener {
 
     private void restartGame() {
         logik.nulstil();
-        Fragment frg;
-        frg = getFragmentManager().findFragmentById(R.id.mainactfragment);
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.detach(frg);
-        ft.attach(frg);
-        ft.commit();
+
+        GameFragment gamefragment = new GameFragment();
+        android.app.FragmentManager fm=getFragmentManager();
+        android.app.FragmentTransaction ft=fm.beginTransaction();
+        gamefragment.setArguments(restartgamebundle);
+        ft.replace(R.id.mainactfragment, gamefragment)
+                .addToBackStack(null)
+                .commit();
 
 
     }

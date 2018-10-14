@@ -1,1 +1,1 @@
-jabba-the-hutt,luke-skywalker,jedi-master-yoda,lightsaber, stoormtrooper,alderaan,artoo-deetoo,bobba-fett,chewbacca,coruscant,dagobah,dantooine,darth-maul,darth-sidious,darth-vader,droid,ewoks,force,grievous,wookiee
+jabba-the-hutt,luke-skywalker,jedi-master-yoda,lightsaber, stoormtrooper,alderaan,artoo-deetoo,bobba-fett,chewbacca,coruscant,dagobah,dantooine,darth-maul,darth-sidious,darth-vader,droid,ewoks,force,grievous,wookiee,jedi,sith,hutt,at-at,at-st,bacta

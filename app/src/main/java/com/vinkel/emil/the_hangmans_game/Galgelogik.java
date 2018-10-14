@@ -15,6 +15,11 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Random;
 
+import static com.vinkel.emil.the_hangmans_game.MyEnum.DEFAULT;
+import static com.vinkel.emil.the_hangmans_game.MyEnum.FOOD;
+import static com.vinkel.emil.the_hangmans_game.MyEnum.HARRYPOTTER;
+import static com.vinkel.emil.the_hangmans_game.MyEnum.STARWARS;
+
 public class Galgelogik {
   /** AHT afprøvning er muligeOrd synlig på pakkeniveau */
   ArrayList<String> muligeOrd = new ArrayList<String>();
@@ -66,15 +71,25 @@ public class Galgelogik {
 
   }
   //tilføjer mulige ord til arrayet fra text fil ud fra en valgt kategori. @author emil_
-  public void categories(String choosecategory, Context context){
+  public void categoriesAndDifficulty(Enum cat, Enum difficulty, Context context){
     try{
+      InputStream is=null;
+      if (MyEnum.DEFAULT.equals(cat)) {
+        is = (context.getAssets().open("def.txt"));
 
+      } else if (MyEnum.STARWARS.equals(cat)) {
+        is = (context.getAssets().open("starwars.txt"));
 
-        InputStream is=(context.getAssets().open(choosecategory));
+      } else if (MyEnum.HARRYPOTTER.equals(cat)) {
+        is = (context.getAssets().open("harrypotter.txt"));
 
+      } else if (MyEnum.FOOD.equals(cat)) {
+        is = (context.getAssets().open("food.txt"));
+
+      }
 
       BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-      String line = reader.readLine();
+        String line = reader.readLine();
 
       while(line != null) {
         String[] wordsLine = line.split(",");
@@ -83,10 +98,38 @@ public class Galgelogik {
         }
         line = reader.readLine();
       }
+
+        if(difficulty==MyEnum.EASY){
+        setWords(MyEnum.EASY.getIntvalue());
+         }
+        if(difficulty==MyEnum.NORMAL){
+        setWords(MyEnum.NORMAL.getIntvalue());
+        }
+
+
         nulstil();
-    } catch (Exception e) {
+
+
+    }  catch (Exception e) {
       throw new RuntimeException(
               "This should never happen, I know this file exists", e);
+    }
+  }
+
+
+
+  private void setWords(int i){
+      ArrayList<String> temp = new ArrayList<String>();
+      for(String word:muligeOrd){
+        if(word.length()<=i){
+          temp.add(word);
+
+        }
+      }
+      muligeOrd.retainAll(temp);
+
+    if(muligeOrd.isEmpty()){
+      muligeOrd.add("ingenord");
     }
 
   }
@@ -121,7 +164,7 @@ public class Galgelogik {
 
   public void gætBogstav(String bogstav) {
     if (bogstav.length() != 1) return;
-    System.out.println("Der gættes på bogstavet: " + bogstav);
+
     if (brugteBogstaver.contains(bogstav)) return;
     if (spilletErVundet || spilletErTabt) return;
 
@@ -129,11 +172,10 @@ public class Galgelogik {
 
     if (ordet.contains(bogstav)) {
       sidsteBogstavVarKorrekt = true;
-      System.out.println("Bogstavet var korrekt: " + bogstav);
+
     } else {
       // Vi gættede på et bogstav der ikke var i ordet.
       sidsteBogstavVarKorrekt = false;
-      System.out.println("Bogstavet var IKKE korrekt: " + bogstav);
       antalForkerteBogstaver = antalForkerteBogstaver + 1;
       forkerteBogstaver.add(bogstav);
       if (antalForkerteBogstaver > 6) {
