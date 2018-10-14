@@ -3,6 +3,7 @@ package com.vinkel.emil.the_hangmans_game;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Outline;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -39,6 +40,7 @@ public class Hovedaktivitet_akt extends AppCompatActivity implements View.OnClic
             helpbutton.setOnClickListener(this);
             settings = findViewById(R.id.settings);
             settings.setOnClickListener(this);
+
             // TODO highscorebutton= findViewById(R.id.highscorebutton);
             mm = findViewById(R.id.mainmenu);
             mm.setOnClickListener(this);
@@ -62,15 +64,6 @@ public class Hovedaktivitet_akt extends AppCompatActivity implements View.OnClic
         }
 
         if (v == settings) {
-            if (count == 0) {
-                count++;
-
-                android.app.Fragment setfrag = new SettingsFragment();
-                getFragmentManager().beginTransaction().replace(R.id.mainactfragment, setfrag, "settings")
-                        .addToBackStack(null)
-                        .commit();
-            }
-
 
             if (fm.findFragmentByTag("settings") == null) {
                 android.app.Fragment fragset = new SettingsFragment();
@@ -100,13 +93,13 @@ public class Hovedaktivitet_akt extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onBackPressed() {
-        count = 0;
+
         if (getFragmentManager().getBackStackEntryCount() == 0) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
             builder.setPositiveButton(R.string.exit, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    if (sound.isPlaying()) {
+                    if (sound!=null&&sound.isPlaying()) {
                         sound.stop();
                     }
                     finish();

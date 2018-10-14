@@ -30,7 +30,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/rippfect"
+        android:background="@drawable/ovalbutton"
         android:checked="false"
         android:fontFamily="@font/creepster"
         android:textAllCaps="false"

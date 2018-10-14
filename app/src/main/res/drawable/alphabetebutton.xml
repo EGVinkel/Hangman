@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ripple xmlns:android="http://schemas.android.com/apk/res/android"
-    android:color="#eddde4"
-    >
-    <item android:id="@android:id/mask">
-        <shape xmlns:android="http://schemas.android.com/apk/res/android"
-            android:shape="rectangle" >
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape android:shape="rectangle" >
 
             <corners
                 android:bottomLeftRadius="30dp"
@@ -27,9 +25,8 @@
         </shape>
     </item>
 
-    <item android:id="@android:id/background">
-        <shape xmlns:android="http://schemas.android.com/apk/res/android"
-            android:shape="rectangle" >
+    <item android:top="3dp" android:bottom="1dp">
+        <shape android:shape="rectangle" >
 
             <corners
                 android:bottomLeftRadius="30dp"
@@ -37,7 +34,7 @@
                 android:topLeftRadius="30dp"
                 android:topRightRadius="30dp" />
 
-            <solid android:color="#FF950740" />
+            <solid android:color="#FF950740"/>
 
             <padding
                 android:bottom="0dp"
@@ -50,4 +47,4 @@
                 android:width="30dp" />
 
         </shape>    </item>
-</ripple>
+</layer-list>

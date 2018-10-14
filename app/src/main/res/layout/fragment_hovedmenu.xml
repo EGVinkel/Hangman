@@ -101,7 +101,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:autoSizeTextType="uniform"
-            android:background="@drawable/rippfect"
+            android:background="@drawable/ripple"
             android:baselineAligned="false"
             android:fontFamily="@font/creepster"
             android:text="@string/play"
