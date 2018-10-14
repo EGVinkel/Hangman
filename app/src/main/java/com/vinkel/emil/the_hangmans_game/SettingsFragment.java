@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.view.View;
 
 public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener {
 
@@ -51,5 +52,8 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
         return false;
     }
+
+
+
 }
 

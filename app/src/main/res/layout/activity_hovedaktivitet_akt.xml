@@ -71,7 +71,7 @@
 
         <fragment
             android:id="@+id/mainactfragment"
-            android:name="com.vinkel.emil.the_hangmans_game.HovedmenuFragment"
+            android:name="com.vinkel.emil.the_hangmans_game.SettingsFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"

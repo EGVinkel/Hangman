@@ -31,7 +31,6 @@
         android:layout_marginBottom="8dp"
         android:autoSizeTextType="uniform"
         android:background="@drawable/rippfect"
-        android:checked="false"
         android:fontFamily="@font/creepster"
         android:textAllCaps="false"
         android:textOff="@string/dansk"

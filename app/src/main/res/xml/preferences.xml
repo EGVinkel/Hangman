@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout="@layout/fragment_settings"
-    android:orderingFromXml="true">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:enabled="true"
+    android:persistent="true"
+    android:shouldDisableView="false">
     <PreferenceCategory
-        android:title="@string/settings" />
+        android:title="@string/settings"
+        app:autoSizeTextType="uniform"
+        app:fontFamily="@font/creepster">
+        <CheckBoxPreference
+            android:autoSizeTextType="uniform"
+            android:defaultValue="true"
+            android:elevation="10dp"
+            android:key="pref_music"
+            android:summary="@string/musicpref"
+            android:title="@string/music" />
+        <CheckBoxPreference
+            android:autoSizeTextType="uniform"
+            android:defaultValue="true"
+            android:key="pref_sound"
+            android:summary="@string/soundpref"
+            android:title="@string/sound" />
+    </PreferenceCategory>
 
-    <CheckBoxPreference
-        android:autoSizeTextType="uniform"
-        android:defaultValue="true"
-        android:key="pref_music"
-        android:summary="@string/musicpref"
-        android:title="@string/music" />
-    <CheckBoxPreference
-        android:autoSizeTextType="uniform"
-        android:defaultValue="true"
-        android:key="pref_sound"
-        android:summary="@string/soundpref"
-        android:title="@string/sound" />
 </PreferenceScreen>
