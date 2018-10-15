@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.view.View;
 
 public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener {
 
@@ -24,7 +23,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     @Override
     public boolean onPreferenceClick(Preference preference) {
         SharedPreferences sharedp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        if(preference==findPreference("pref_music")) {
+        if (preference == findPreference("pref_music")) {
             if (sharedp.getBoolean("pref_music", true)) {
                 ((Hovedaktivitet_akt) getActivity()).startTheme();
             }
@@ -33,7 +32,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             }
 
         }
-        if(preference==findPreference("pref_sound")) {
+        if (preference == findPreference("pref_sound")) {
 
 
             if (sharedp.getBoolean("pref_sound", true)) {
@@ -49,10 +48,8 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         }
 
 
-
         return false;
     }
-
 
 
 }

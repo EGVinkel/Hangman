@@ -1,6 +1,5 @@
 package com.vinkel.emil.the_hangmans_game;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -18,7 +17,6 @@ import android.view.ViewOutlineProvider;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 
 public class GameFragment extends android.app.Fragment implements View.OnClickListener {
@@ -43,7 +41,7 @@ public class GameFragment extends android.app.Fragment implements View.OnClickLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View gamefragment = inflater.inflate(R.layout.fragment_game, container, false);
         setRetainInstance(true);
-        Typeface creepster= Typeface.createFromAsset(getActivity().getAssets(), "creepsterregular.ttf");
+        Typeface creepster = Typeface.createFromAsset(getActivity().getAssets(), "creepsterregular.ttf");
         for (int iterator = 0; iterator < buttons.length; iterator++) {
             buttons[iterator] = gamefragment.findViewById(idList[iterator]);
             buttons[iterator].setOnClickListener(this);
@@ -57,20 +55,20 @@ public class GameFragment extends android.app.Fragment implements View.OnClickLi
         };
 
 
-        for(Button b:buttons){
+        for (Button b : buttons) {
             b.setTypeface(creepster);
             b.setOutlineProvider(viewOutlineProvider);
         }
         //Hent lydeffecter til/fra
-        prefs= PreferenceManager.getDefaultSharedPreferences(getActivity());
-        soundact=prefs.getBoolean("pref_sound",true);
+        prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        soundact = prefs.getBoolean("pref_sound", true);
 
-        logik.categoriesAndDifficulty((Enum)getArguments().getSerializable("cat"),(Enum)getArguments().getSerializable("dif"),getActivity());
-        restartgamebundle=new Bundle();
+        logik.categoriesAndDifficulty((Enum) getArguments().getSerializable("cat"), (Enum) getArguments().getSerializable("dif"), getActivity());
+        restartgamebundle = new Bundle();
         //adds category to restart
-        restartgamebundle.putSerializable("cat",getArguments().getSerializable("cat"));
+        restartgamebundle.putSerializable("cat", getArguments().getSerializable("cat"));
         //adds difficulty to restart
-        restartgamebundle.putSerializable("dif",getArguments().getSerializable("dif"));
+        restartgamebundle.putSerializable("dif", getArguments().getSerializable("dif"));
         infoomordet = gamefragment.findViewById(R.id.gameinfo);
         infoomordet.setText("Guess:" + "\n" + logik.getSynligtOrd());
         infobogstaver = gamefragment.findViewById(R.id.wrongletters);
@@ -149,16 +147,16 @@ public class GameFragment extends android.app.Fragment implements View.OnClickLi
 
 
     private void opdaterSkærm() {
-        String infoord= "Guess:" + "\n" + logik.getSynligtOrd().substring(0,1).toUpperCase()+logik.getSynligtOrd().substring(1).toLowerCase();
+        String infoord = "Guess:" + "\n" + logik.getSynligtOrd().substring(0, 1).toUpperCase() + logik.getSynligtOrd().substring(1).toLowerCase();
         infoomordet.setText(infoord);
-        String infobogstave= "\nYou have " + logik.getAntalForkerteBogstaver() + " wrong guesses:" + logik.getForkertebogstaver();
+        String infobogstave = "\nYou have " + logik.getAntalForkerteBogstaver() + " wrong guesses:" + logik.getForkertebogstaver();
         infobogstaver.setText(infobogstave);
 
 
         if (logik.erSpilletVundet()) {
-            String won = "You have won! the word was:\n" + logik.getOrdet().substring(0,1).toUpperCase()+ logik.getOrdet().substring(1).toLowerCase();
+            String won = "You have won! the word was:\n" + logik.getOrdet().substring(0, 1).toUpperCase() + logik.getOrdet().substring(1).toLowerCase();
 
-            if(soundact) {
+            if (soundact) {
                 MediaPlayer winningsound1 = MediaPlayer.create(getActivity(), R.raw.cheering);
                 MediaPlayer winningsound2 = MediaPlayer.create(getActivity(), R.raw.crowdapplause1);
                 winningsound1.start();
@@ -173,7 +171,7 @@ public class GameFragment extends android.app.Fragment implements View.OnClickLi
 
             String lost = "You have lost, the word was:\n" + logik.getOrdet().substring(0, 1).toUpperCase() + logik.getOrdet().substring(1).toLowerCase();
 
-            if(soundact) {
+            if (soundact) {
 
                 MediaPlayer winningsound = MediaPlayer.create(getActivity(), R.raw.boo3);
                 winningsound.start();
@@ -188,8 +186,8 @@ public class GameFragment extends android.app.Fragment implements View.OnClickLi
         logik.nulstil();
 
         GameFragment gamefragment = new GameFragment();
-        android.app.FragmentManager fm=getFragmentManager();
-        android.app.FragmentTransaction ft=fm.beginTransaction();
+        android.app.FragmentManager fm = getFragmentManager();
+        android.app.FragmentTransaction ft = fm.beginTransaction();
         gamefragment.setArguments(restartgamebundle);
         ft.replace(R.id.mainactfragment, gamefragment)
                 .addToBackStack(null)

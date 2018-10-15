@@ -3,7 +3,6 @@ package com.vinkel.emil.the_hangmans_game;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Outline;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -99,7 +98,7 @@ public class Hovedaktivitet_akt extends AppCompatActivity implements View.OnClic
 
             builder.setPositiveButton(R.string.exit, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    if (sound!=null&&sound.isPlaying()) {
+                    if (sound != null && sound.isPlaying()) {
                         sound.stop();
                     }
                     finish();
