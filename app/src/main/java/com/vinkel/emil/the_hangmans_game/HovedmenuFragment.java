@@ -1,12 +1,16 @@
 package com.vinkel.emil.the_hangmans_game;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
@@ -18,7 +22,8 @@ public class HovedmenuFragment extends android.app.Fragment implements View.OnCl
     private Button playbutton;
     private Spinner dropdown;
     private Bundle bundle = new Bundle();
-
+    private String myownword;
+    private Enum temp = null;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View mitfragment = inflater.inflate(R.layout.fragment_hovedmenu, container, false);
@@ -33,7 +38,7 @@ public class HovedmenuFragment extends android.app.Fragment implements View.OnCl
 
 
         dropdown = mitfragment.findViewById(R.id.category);
-        String[] items = new String[]{MyEnum.DEFAULT.toString(), MyEnum.HARRYPOTTER.toString(), MyEnum.STARWARS.toString(), MyEnum.FOOD.toString()};
+        String[] items = new String[]{MyEnum.DEFAULT.toString(), MyEnum.HARRYPOTTER.toString(), MyEnum.STARWARS.toString(), MyEnum.FOOD.toString(), MyEnum.WordsDR.toString(), MyEnum.MyWord.toString()};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
         dropdown.setOnItemSelectedListener(this);
@@ -43,15 +48,57 @@ public class HovedmenuFragment extends android.app.Fragment implements View.OnCl
 
     public void onClick(View v) {
         if (v == playbutton) {
+            if (temp != MyEnum.MyWord) {
+                GameFragment gamefragment = new GameFragment();
+                android.app.FragmentManager fm = getFragmentManager();
+                android.app.FragmentTransaction ft = fm.beginTransaction();
+                gamefragment.setArguments(bundle);
+                ft.replace(R.id.mainactfragment, gamefragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+            if (temp == MyEnum.MyWord) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Type your word");
+                final EditText input = new EditText(getActivity());
+                input.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
+                builder.setView(input);
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        myownword = input.getText().toString();
+                        dialog.dismiss();
+                        System.out.println(myownword);
+                        if (myownword == null) {
+                            myownword = "NothingTyped";
+                        }
+                        String detskalværeord = myownword.replaceAll(" ", "").
+                                replaceAll("[^a-zæøå]", "").
+                                replaceAll("å", "aa").
+                                replaceAll("ø", "oe").
+                                replaceAll("æ", "ae");
+                        if (detskalværeord.length() < 3) {
+                            detskalværeord = "wordmustbelonger";
+                        }
+                        bundle.putString("myword", detskalværeord);
+                        System.out.println(detskalværeord);
+                        GameFragment gamefragment = new GameFragment();
+                        android.app.FragmentManager fm = getFragmentManager();
+                        android.app.FragmentTransaction ft = fm.beginTransaction();
+                        gamefragment.setArguments(bundle);
+                        ft.replace(R.id.mainactfragment, gamefragment)
+                                .addToBackStack(null)
+                                .commit();
 
-            GameFragment gamefragment = new GameFragment();
 
-            android.app.FragmentManager fm = getFragmentManager();
-            android.app.FragmentTransaction ft = fm.beginTransaction();
-            gamefragment.setArguments(bundle);
-            ft.replace(R.id.mainactfragment, gamefragment)
-                    .addToBackStack(null)
-                    .commit();
+                    }
+                });
+                builder.show();
+
+
+            }
+
+
 
 
         }
@@ -59,7 +106,7 @@ public class HovedmenuFragment extends android.app.Fragment implements View.OnCl
 
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
         if (parent.getId() == dropdown.getId()) {
-            Enum temp = null;
+
             switch (position) {
                 case 0:
                     temp = MyEnum.DEFAULT;
@@ -73,7 +120,12 @@ public class HovedmenuFragment extends android.app.Fragment implements View.OnCl
                 case 3:
                     temp = MyEnum.FOOD;
                     break;
-
+                case 4:
+                    temp = MyEnum.WordsDR;
+                    break;
+                case 5:
+                    temp = MyEnum.MyWord;
+                    break;
             }
             bundle.putSerializable("cat", temp);
         }

@@ -1,6 +1,8 @@
 package com.vinkel.emil.the_hangmans_game;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,14 +11,16 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 public class Galgelogik {
     /**
      * AHT afprøvning er muligeOrd synlig på pakkeniveau
      */
-    ArrayList<String> muligeOrd = new ArrayList<String>();
+    private ArrayList<String> muligeOrd = new ArrayList<String>();
     private String ordet;
     private ArrayList<String> brugteBogstaver = new ArrayList<String>();
     private ArrayList<String> forkerteBogstaver = new ArrayList<String>();
@@ -25,7 +29,8 @@ public class Galgelogik {
     private boolean sidsteBogstavVarKorrekt;
     private boolean spilletErVundet;
     private boolean spilletErTabt;
-
+    private SharedPreferences prefs;
+    private Context con;
 
     public ArrayList<String> getBrugteBogstaver() {
         return brugteBogstaver;
@@ -64,37 +69,50 @@ public class Galgelogik {
     }
 
 
-    public Galgelogik() {
-
+    public Galgelogik(Context context) {
+        prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        con = context;
     }
 
     //tilføjer mulige ord til arrayet fra text fil ud fra en valgt kategori. @author emil_
-    public void categoriesAndDifficulty(Enum cat, Enum difficulty, Context context) {
+    public void categoriesAndDifficulty(Enum cat, Enum difficulty) {
         try {
-            InputStream is = null;
-            if (MyEnum.DEFAULT.equals(cat)) {
-                is = (context.getAssets().open("def.txt"));
 
-            } else if (MyEnum.STARWARS.equals(cat)) {
-                is = (context.getAssets().open("starwars.txt"));
+            if (!MyEnum.WordsDR.equals(cat)) {
+                InputStream is = null;
+                if (MyEnum.DEFAULT.equals(cat)) {
+                    is = (con.getAssets().open("def.txt"));
 
-            } else if (MyEnum.HARRYPOTTER.equals(cat)) {
-                is = (context.getAssets().open("harrypotter.txt"));
+                } else if (MyEnum.STARWARS.equals(cat)) {
+                    is = (con.getAssets().open("starwars.txt"));
 
-            } else if (MyEnum.FOOD.equals(cat)) {
-                is = (context.getAssets().open("food.txt"));
+                } else if (MyEnum.HARRYPOTTER.equals(cat)) {
+                    is = (con.getAssets().open("harrypotter.txt"));
+
+                } else if (MyEnum.FOOD.equals(cat)) {
+                    is = (con.getAssets().open("food.txt"));
+
+                }
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+                String line = reader.readLine();
+
+                while (line != null) {
+                    String[] wordsLine = line.split(",");
+                    for (String word : wordsLine) {
+                        muligeOrd.add(word);
+                    }
+                    line = reader.readLine();
+                }
 
             }
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-            String line = reader.readLine();
 
-            while (line != null) {
-                String[] wordsLine = line.split(",");
-                for (String word : wordsLine) {
+            if (MyEnum.WordsDR.equals(cat)) {
+                Set<String> myset = prefs.getStringSet("orddr", new HashSet<String>());
+                for (String word : myset) {
                     muligeOrd.add(word);
                 }
-                line = reader.readLine();
+
             }
 
             if (difficulty == MyEnum.EASY) {
@@ -112,6 +130,12 @@ public class Galgelogik {
             throw new RuntimeException(
                     "This should never happen, I know this file exists", e);
         }
+    }
+
+    public void myWord(String myword) {
+        muligeOrd.clear();
+        muligeOrd.add(myword);
+        nulstil();
     }
 
 
@@ -160,6 +184,9 @@ public class Galgelogik {
     }
 
     public void gætBogstav(String bogstav) {
+        if (ordet == null)
+            return;
+
         if (bogstav.length() != 1) return;
 
         if (brugteBogstaver.contains(bogstav)) return;
@@ -220,14 +247,29 @@ public class Galgelogik {
                 replaceAll("&oslash;", "ø"). // erstat HTML-tegn
                 replaceAll("&#229;", "å"). // erstat HTML-tegn
                 replaceAll("[^a-zæøå]", " "). // fjern tegn der ikke er bogstaver
+                replaceAll("this", " "). //Fjerner nogle engelske ord der bruges ifl til html.
+                replaceAll("adspaces", " ").
+                replaceAll("push", " ").
                 replaceAll(" [a-zæøå] ", " "). // fjern 1-bogstavsord
-                replaceAll(" [a-zæøå][a-zæøå] ", " "); // fjern 2-bogstavsord
+                replaceAll(" [a-zæøå][a-zæøå] ", " ").trim(); // fjern 2-bogstavsord
 
         System.out.println("data = " + data);
         System.out.println("data = " + Arrays.asList(data.split("\\s+")));
         muligeOrd.clear();
-        muligeOrd.addAll(new HashSet<String>(Arrays.asList(data.split(" "))));
+        muligeOrd.addAll(new HashSet<>(Arrays.asList(data.split(" "))));
+        ArrayList temp = new ArrayList();
+        for (String word : muligeOrd) {
+            if (!(word.contains("å") || word.contains("ø") || word.contains("æ")) && word.length() > 3) {
+                temp.add(word);
 
+            }
+        }
+        muligeOrd = temp;
+
+        Collections.sort(muligeOrd);
+        Set mySet = new HashSet(muligeOrd);
+        prefs.edit().putStringSet("orddr", mySet).commit();
+        System.out.println(muligeOrd.size());
         System.out.println("muligeOrd = " + muligeOrd);
         nulstil();
     }

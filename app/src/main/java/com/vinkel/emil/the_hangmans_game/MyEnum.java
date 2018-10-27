@@ -1,7 +1,7 @@
 package com.vinkel.emil.the_hangmans_game;
 
 public enum MyEnum {
-    EASY("Easy", 5), NORMAL("Normal", 8), HARD("Hard", 20), DEFAULT("Default", 1), STARWARS("Star Wars", 2), HARRYPOTTER("Harry Potter", 3), FOOD("Food", 4);
+    EASY("Easy", 5), NORMAL("Normal", 8), HARD("Hard", 20), DEFAULT("Default", 1), STARWARS("Star Wars", 2), HARRYPOTTER("Harry Potter", 3), FOOD("Food", 4), WordsDR("Words from DR", 5), MyWord("Type your word", 6);
     private String stringvalue;
     private int intvalue;
 

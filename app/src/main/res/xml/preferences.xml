@@ -22,6 +22,10 @@
             android:key="pref_sound"
             android:summary="@string/soundpref"
             android:title="@string/sound" />
+        <Preference
+            android:key="@string/deleteDR"
+            android:summary="Delete cached words from DR."
+            android:title="Delete Cache" />
     </PreferenceCategory>
 
 </PreferenceScreen>

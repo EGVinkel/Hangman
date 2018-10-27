@@ -16,7 +16,7 @@ public class Hovedaktivitet_akt extends AppCompatActivity implements View.OnClic
 
     private MediaPlayer sound;
     private Button mm;
-    // TODO private Button highscorebutton;
+    private Button highscorebutton;
     private Button settings;
     private Button helpbutton;
     private int count;
@@ -40,7 +40,8 @@ public class Hovedaktivitet_akt extends AppCompatActivity implements View.OnClic
             settings = findViewById(R.id.settings);
             settings.setOnClickListener(this);
 
-            // TODO highscorebutton= findViewById(R.id.highscorebutton);
+            highscorebutton = findViewById(R.id.highscorebutton);
+            highscorebutton.setOnClickListener(this);
             mm = findViewById(R.id.mainmenu);
             mm.setOnClickListener(this);
             count = 0;
@@ -55,6 +56,11 @@ public class Hovedaktivitet_akt extends AppCompatActivity implements View.OnClic
         if (v == helpbutton) {
             Intent i = new Intent(this, Helpactivity_akt.class);
             startActivity(i);
+
+        }
+
+        if (v == highscorebutton) {
+
 
         }
         if (v == mm) {
