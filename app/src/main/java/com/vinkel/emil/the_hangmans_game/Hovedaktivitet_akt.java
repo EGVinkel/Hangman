@@ -11,15 +11,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.vinkel.emil.the_hangmans_game.com.vinkel.emil.the_hangmans_game.playerdata.Sharedp;
+
+import java.util.HashSet;
+
 
 public class Hovedaktivitet_akt extends AppCompatActivity implements View.OnClickListener {
-
     private MediaPlayer sound;
     private Button mm;
     private Button highscorebutton;
     private Button settings;
     private Button helpbutton;
-    private int count;
+    private Button hemmelighighscoresletter;
     private android.app.FragmentManager fm = getFragmentManager();
 
 
@@ -39,13 +42,14 @@ public class Hovedaktivitet_akt extends AppCompatActivity implements View.OnClic
             helpbutton.setOnClickListener(this);
             settings = findViewById(R.id.settings);
             settings.setOnClickListener(this);
+            hemmelighighscoresletter = findViewById(R.id.Hemlig);
+            hemmelighighscoresletter.setOnClickListener(this);
 
             highscorebutton = findViewById(R.id.highscorebutton);
             highscorebutton.setOnClickListener(this);
             mm = findViewById(R.id.mainmenu);
             mm.setOnClickListener(this);
-            count = 0;
-            if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("pref_music", true)) {
+            if (Sharedp.prefs.getBoolean("pref_music", true)) {
                 startTheme();
             }
         }
@@ -53,6 +57,11 @@ public class Hovedaktivitet_akt extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View v) {
+        if (v == hemmelighighscoresletter) {
+            Sharedp.prefs.edit().putStringSet("hscorenavne", new HashSet<>()).commit();
+
+        }
+
         if (v == helpbutton) {
             Intent i = new Intent(this, Helpactivity_akt.class);
             startActivity(i);
@@ -60,7 +69,13 @@ public class Hovedaktivitet_akt extends AppCompatActivity implements View.OnClic
         }
 
         if (v == highscorebutton) {
-
+            if (fm.findFragmentByTag("highscore") == null) {
+                android.app.Fragment hfragment = new HighscoreFragment();
+                getFragmentManager().beginTransaction().replace(R.id.mainactfragment, hfragment, "highscore")
+                        .addToBackStack(null)
+                        .commit();
+                return;
+            }
 
         }
         if (v == mm) {
@@ -128,4 +143,6 @@ public class Hovedaktivitet_akt extends AppCompatActivity implements View.OnClic
         }
 
     }
+
+
 }

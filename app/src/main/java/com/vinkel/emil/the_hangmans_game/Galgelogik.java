@@ -1,8 +1,8 @@
 package com.vinkel.emil.the_hangmans_game;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+
+import com.vinkel.emil.the_hangmans_game.com.vinkel.emil.the_hangmans_game.playerdata.Sharedp;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,7 +29,6 @@ public class Galgelogik {
     private boolean sidsteBogstavVarKorrekt;
     private boolean spilletErVundet;
     private boolean spilletErTabt;
-    private SharedPreferences prefs;
     private Context con;
 
     public ArrayList<String> getBrugteBogstaver() {
@@ -70,7 +69,6 @@ public class Galgelogik {
 
 
     public Galgelogik(Context context) {
-        prefs = PreferenceManager.getDefaultSharedPreferences(context);
         con = context;
     }
 
@@ -108,7 +106,7 @@ public class Galgelogik {
 
 
             if (MyEnum.WordsDR.equals(cat)) {
-                Set<String> myset = prefs.getStringSet("orddr", new HashSet<String>());
+                Set<String> myset = Sharedp.prefs.getStringSet("orddr", new HashSet<String>());
                 for (String word : myset) {
                     muligeOrd.add(word);
                 }
@@ -268,7 +266,7 @@ public class Galgelogik {
 
         Collections.sort(muligeOrd);
         Set mySet = new HashSet(muligeOrd);
-        prefs.edit().putStringSet("orddr", mySet).commit();
+        Sharedp.prefs.edit().putStringSet("orddr", mySet).commit();
         System.out.println(muligeOrd.size());
         System.out.println("muligeOrd = " + muligeOrd);
         nulstil();

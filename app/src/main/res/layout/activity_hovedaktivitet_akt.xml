@@ -9,19 +9,20 @@
     tools:context=".Hovedaktivitet_akt"
     tools:layout_editor_absoluteY="25dp">
 
-    <TextView
-        android:id="@+id/textView"
+    <Button
+        android:id="@+id/Hemlig"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:autoSizeTextType="uniform"
+        android:background="@color/background_material_dark"
         android:fontFamily="@font/creepster"
         android:text="@string/welcoming"
         android:textAlignment="center"
         android:textColor="@android:color/background_light"
-        android:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
@@ -189,8 +190,16 @@
 
     <nl.dionsegijn.konfetti.KonfettiView
         android:id="@+id/viewKonfetti"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/frameLayout" />
 
 
 </android.support.constraint.ConstraintLayout>

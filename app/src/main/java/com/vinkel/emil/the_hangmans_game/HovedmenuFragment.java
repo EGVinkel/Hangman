@@ -68,7 +68,6 @@ public class HovedmenuFragment extends android.app.Fragment implements View.OnCl
                     public void onClick(DialogInterface dialog, int which) {
                         myownword = input.getText().toString();
                         dialog.dismiss();
-                        System.out.println(myownword);
                         if (myownword == null) {
                             myownword = "NothingTyped";
                         }

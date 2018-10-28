@@ -1,11 +1,11 @@
 package com.vinkel.emil.the_hangmans_game;
 
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
+
+import com.vinkel.emil.the_hangmans_game.com.vinkel.emil.the_hangmans_game.playerdata.Sharedp;
 
 import java.util.HashSet;
 
@@ -29,20 +29,18 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
     @Override
     public boolean onPreferenceClick(Preference preference) {
-        SharedPreferences sharedp = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         if (preference == findPreference(getString(R.string.deleteDR))) {
-            sharedp.edit().putStringSet("orddr", new HashSet<String>()).commit();
-
+            Sharedp.prefs.edit().putStringSet("orddr", new HashSet<String>()).commit();
         }
 
 
 
         if (preference == findPreference("pref_music")) {
-            if (sharedp.getBoolean("pref_music", true)) {
+            if (Sharedp.prefs.getBoolean("pref_music", true)) {
                 ((Hovedaktivitet_akt) getActivity()).startTheme();
             }
-            if (!sharedp.getBoolean("pref_music", true)) {
+            if (!Sharedp.prefs.getBoolean("pref_music", true)) {
                 ((Hovedaktivitet_akt) getActivity()).stopTheme();
             }
 
@@ -50,12 +48,12 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         if (preference == findPreference("pref_sound")) {
 
 
-            if (sharedp.getBoolean("pref_sound", true)) {
-                sharedp.edit().putBoolean("pref_sound", true).apply();
+            if (Sharedp.prefs.getBoolean("pref_sound", true)) {
+                Sharedp.prefs.edit().putBoolean("pref_sound", true).apply();
 
             }
-            if (!sharedp.getBoolean("pref_sound", true)) {
-                sharedp.edit().putBoolean("pref_sound", false).apply();
+            if (!Sharedp.prefs.getBoolean("pref_sound", true)) {
+                Sharedp.prefs.edit().putBoolean("pref_sound", false).apply();
 
 
             }

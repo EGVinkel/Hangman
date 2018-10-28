@@ -21,4 +21,7 @@
     <string name="exit">Get me out of here!</string>
     <string name="dontexit">No!</string>
     <string name="deleteDR">Delete!</string>
+    <string name="Highscorelist">Highscore List</string>
+    <string name="name">Name:</string>
+    <string name="score">Score:</string>
 </resources>

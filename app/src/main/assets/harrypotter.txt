@@ -1,2 +1,1 @@
-doxy,lumos,impervius, knarl, knut, incendio, howler, gurg, ghoul,grim, boggart,hagrid, chaser, charm, cruciatus-curse, comet, harry-potter,quidditch,mugles,blodger,golden-snitch,diagon-alley,butterbeer,patronus,sorting-hat, hogwarts,gryffindor,hufflepuff,
-ravenclaw,slytherin,horcrux,voldemort,cedric, accio,alohomora,animagus,auror, crup, dementor,
+doxy,lumos,impervius,knarl,knut,incendio,howler,gurg,ghoul,grim,boggart,hagrid,chaser,charm,cruciatus-curse,comet,harry-potter,quidditch,mugles,blodger,golden-snitch,diagon-alley,butterbeer,patronus,sorting-hat,hogwarts,gryffindor,hufflepuff,ravenclaw,slytherin,horcrux,voldemort,cedric,accio,alohomora,animagus,auror,crup,dementor

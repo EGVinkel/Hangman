@@ -2,25 +2,33 @@ package com.vinkel.emil.the_hangmans_game;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Chronometer;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.vinkel.emil.the_hangmans_game.com.vinkel.emil.the_hangmans_game.playerdata.Sharedp;
+
 import java.util.HashSet;
+import java.util.Set;
 
 import nl.dionsegijn.konfetti.KonfettiView;
 import nl.dionsegijn.konfetti.models.Shape;
@@ -41,9 +49,13 @@ public class GameFragment extends android.app.Fragment implements View.OnClickLi
     private ImageView aniview;
     private TextView infobogstaver;
     private AnimationDrawable hovedAnimation;
-    private SharedPreferences prefs;
     private boolean soundact;
     private Bundle restartgamebundle;
+    private Chronometer cm;
+    private int tid;
+    private int score = 100;
+    private String navn;
+    private boolean vent;
     int[] idList = {id.a, id.b, id.c, id.d, id.e, id.f, id.g, id.h, id.i, id.j,
             id.k, id.l, id.m, id.n, id.o, id.p, id.q, id.r, id.s, id.t, id.u, id.v,
             id.w, id.x, id.y, id.z};
@@ -59,6 +71,8 @@ public class GameFragment extends android.app.Fragment implements View.OnClickLi
         if (logik == null) {
             logik = new Galgelogik(getActivity());
         }
+
+
         Typeface creepster = Typeface.createFromAsset(getActivity().getAssets(), "creepsterregular.ttf");
         for (int iterator = 0; iterator < buttons.length; iterator++) {
             buttons[iterator] = gamefragment.findViewById(idList[iterator]);
@@ -68,11 +82,11 @@ public class GameFragment extends android.app.Fragment implements View.OnClickLi
             b.setTypeface(creepster);
         }
         konfettiview = getActivity().findViewById(id.viewKonfetti);
-
+        cm = gamefragment.findViewById(id.count);
 
         final ProgressBar minBar = gamefragment.findViewById(id.progressBar);
         minBar.setVisibility(View.GONE);
-        prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
         infoomordet = gamefragment.findViewById(id.gameinfo);
 
         if (getArguments().getSerializable("cat") == MyEnum.MyWord) {
@@ -83,10 +97,10 @@ public class GameFragment extends android.app.Fragment implements View.OnClickLi
 
         if (getArguments().getSerializable("cat") == MyEnum.WordsDR) {
             //Kontroller i prefs manager om ordene allerede findes, og henter derfra hvis de gør.
-            if (!prefs.getStringSet("orddr", new HashSet<String>()).isEmpty()) {
+            if (!Sharedp.prefs.getStringSet("orddr", new HashSet<String>()).isEmpty()) {
                 logik.categoriesAndDifficulty((Enum) getArguments().getSerializable("cat"), (Enum) getArguments().getSerializable("dif"));
                 infoomordet.setText("Guess:" + "\n" + logik.getSynligtOrd());
-            } else if (prefs.getStringSet("orddr", new HashSet<String>()).isEmpty()) {
+            } else if (Sharedp.prefs.getStringSet("orddr", new HashSet<String>()).isEmpty()) {
 
 
                 // Async skelet fra https://gist.github.com/sheharyarn/5f66a854ce43e0c90521
@@ -109,7 +123,6 @@ public class GameFragment extends android.app.Fragment implements View.OnClickLi
                     protected void onPostExecute(Void unused) {
                         minBar.setVisibility(View.GONE);
                         infoomordet.setText("Guess:" + "\n" + logik.getSynligtOrd());
-
                     }
                 }.execute();
 
@@ -121,9 +134,26 @@ public class GameFragment extends android.app.Fragment implements View.OnClickLi
             infoomordet.setText("Guess:" + "\n" + logik.getSynligtOrd());
         }
 
-        //Hent lydeffecter til/fra
 
-        soundact = prefs.getBoolean("pref_sound", true);
+        tid = 0;
+        cm.setBase(SystemClock.elapsedRealtime());
+        cm.start();
+        cm.setTypeface(creepster);
+        cm.setFormat("%s");
+        cm.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+
+            @Override
+
+            public void onChronometerTick(Chronometer chronometer) {
+                tid++;
+
+            }
+
+        });
+
+
+        //Hent lydeffecter til/fra
+        soundact = Sharedp.prefs.getBoolean("pref_sound", true);
         restartgamebundle = new Bundle();
         //adds category to restart
         restartgamebundle.putSerializable("cat", getArguments().getSerializable("cat"));
@@ -210,11 +240,13 @@ public class GameFragment extends android.app.Fragment implements View.OnClickLi
     private void opdaterSkærm() {
         String infoord = "Guess:" + "\n" + logik.getSynligtOrd().substring(0, 1).toUpperCase() + logik.getSynligtOrd().substring(1).toLowerCase();
         infoomordet.setText(infoord);
-        String infobogstave = "\nYou have " + logik.getAntalForkerteBogstaver() + " wrong guesses:" + logik.getForkertebogstaver();
+        String infobogstave = "\nYou have " + logik.getAntalForkerteBogstaver() + " wrong guess(es):" + logik.getForkertebogstaver();
         infobogstaver.setText(infobogstave);
 
 
         if (logik.erSpilletVundet()) {
+            cm.stop();
+
             konfettiview.getActiveSystems().clear();
             konfettiview.build()
                     .addColors(Color.WHITE, Color.RED, Color.YELLOW, Color.BLUE, Color.GREEN)
@@ -225,10 +257,8 @@ public class GameFragment extends android.app.Fragment implements View.OnClickLi
                     .addShapes(Shape.RECT, Shape.CIRCLE)
                     .addSizes(new Size(3, 5))
                     .setPosition(-50f, konfettiview.getWidth() + 50f, -200f, -50f)
-                    .streamFor(3000, 6000L);
+                    .streamFor(300, 5000L);
 
-
-            String won = "You have won!\nIt took you " + (logik.getBrugteBogstaver().size() / 2) + " attempts";
 
             if (soundact) {
                 MediaPlayer winningsound1 = MediaPlayer.create(getActivity(), raw.cheering);
@@ -236,11 +266,17 @@ public class GameFragment extends android.app.Fragment implements View.OnClickLi
                 winningsound1.start();
                 winningsound2.start();
             }
+
+            highscore();
+
+
+            String won = "Do you want to try again?";
             endOfGameDialog(won);
 
 
         }
         if (logik.erSpilletTabt()) {
+            cm.stop();
 
 
             String lost = "You have lost, the word was:\n" + logik.getOrdet().substring(0, 1).toUpperCase() + logik.getOrdet().substring(1).toLowerCase();
@@ -256,9 +292,11 @@ public class GameFragment extends android.app.Fragment implements View.OnClickLi
         }
     }
 
+    //Metode til at genstarte spillet
     private void restartGame() {
         logik.nulstil();
-
+        tid = 0;
+        score = 300;
         GameFragment gamefragment = new GameFragment();
         android.app.FragmentManager fm = getFragmentManager();
         android.app.FragmentTransaction ft = fm.beginTransaction();
@@ -279,6 +317,11 @@ public class GameFragment extends android.app.Fragment implements View.OnClickLi
                 if (MyEnum.MyWord == getArguments().getSerializable("cat")) {
                     logik.myWord(getArguments().getString("myword"));
                     infoomordet.setText("Guess:" + "\n" + logik.getSynligtOrd());
+                    tid = 0;
+                    score = 100;
+                    cm.setBase(SystemClock.elapsedRealtime());
+                    cm.start();
+
                     for (Button b : buttons) {
                         b.setClickable(true);
                         b.setPressed(false);
@@ -294,7 +337,9 @@ public class GameFragment extends android.app.Fragment implements View.OnClickLi
         builder.setNegativeButton(string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.dismiss();
-                getFragmentManager().popBackStackImmediate();
+                getFragmentManager().beginTransaction().replace(R.id.mainactfragment, getFragmentManager().findFragmentByTag("Hovedmenufrag"))
+                        .addToBackStack(null)
+                        .commit();
             }
         });
         builder.setTitle(message);
@@ -306,4 +351,52 @@ public class GameFragment extends android.app.Fragment implements View.OnClickLi
         dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.WHITE);
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.WHITE);
     }
+
+    //Dialog til indtastning på highscore
+    public boolean highscore() {
+
+        @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message mesg) {
+                throw new RuntimeException();
+            }
+        };
+        int thescore = (score - tid * 2) + 5 * (logik.getOrdet().length()) - 10 * logik.getAntalForkerteBogstaver();
+        System.out.println(thescore);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        builder.setTitle("You have won using: " + logik.getBrugteBogstaver().size() / 2 + " attempts");
+        builder.setMessage("Your score is: " + thescore + " Whats your name?!");
+        final EditText input = new EditText(getActivity());
+        input.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
+        builder.setView(input);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                navn = input.getText().toString();
+                dialog.dismiss();
+                if (navn == null || navn.equalsIgnoreCase("")) {
+                    navn = "Emil";
+                }
+                Set navneSet = Sharedp.prefs.getStringSet("hscorenavne", new HashSet<>());
+                navneSet.add(navn);
+                Sharedp.prefs.edit().putInt(navn, thescore).commit();
+                Sharedp.prefs.edit().putStringSet("hscorenavne", navneSet).commit();
+
+                vent = true;
+                handler.sendMessage(handler.obtainMessage());
+
+
+            }
+        });
+        builder.show();
+        try {
+            Looper.loop();
+        } catch (RuntimeException e) {
+        }
+
+        return vent;
+
+    }
+
 }
