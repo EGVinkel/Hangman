@@ -53,7 +53,7 @@ public class GameFragment extends android.app.Fragment implements View.OnClickLi
     private Bundle restartgamebundle;
     private Chronometer cm;
     private int tid;
-    private int score = 100;
+    private int score = 200;
     private String navn;
     private boolean vent;
     int[] idList = {id.a, id.b, id.c, id.d, id.e, id.f, id.g, id.h, id.i, id.j,
@@ -295,8 +295,6 @@ public class GameFragment extends android.app.Fragment implements View.OnClickLi
     //Metode til at genstarte spillet
     private void restartGame() {
         logik.nulstil();
-        tid = 0;
-        score = 300;
         GameFragment gamefragment = new GameFragment();
         android.app.FragmentManager fm = getFragmentManager();
         android.app.FragmentTransaction ft = fm.beginTransaction();
@@ -318,7 +316,7 @@ public class GameFragment extends android.app.Fragment implements View.OnClickLi
                     logik.myWord(getArguments().getString("myword"));
                     infoomordet.setText("Guess:" + "\n" + logik.getSynligtOrd());
                     tid = 0;
-                    score = 100;
+                    score = 200;
                     cm.setBase(SystemClock.elapsedRealtime());
                     cm.start();
 
@@ -361,7 +359,7 @@ public class GameFragment extends android.app.Fragment implements View.OnClickLi
                 throw new RuntimeException();
             }
         };
-        int thescore = (score - tid * 2) + 5 * (logik.getOrdet().length()) - 10 * logik.getAntalForkerteBogstaver();
+        int thescore = (score - tid) + 5 * (logik.getOrdet().length()) - 5 * logik.getAntalForkerteBogstaver();
         System.out.println(thescore);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 

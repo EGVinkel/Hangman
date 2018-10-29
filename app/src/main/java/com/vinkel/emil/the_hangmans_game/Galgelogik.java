@@ -30,6 +30,8 @@ public class Galgelogik {
     private boolean spilletErVundet;
     private boolean spilletErTabt;
     private Context con;
+    private int minlength = 3;
+    private int maxlength = 20;
 
     public ArrayList<String> getBrugteBogstaver() {
         return brugteBogstaver;
@@ -75,7 +77,17 @@ public class Galgelogik {
     //tilføjer mulige ord til arrayet fra text fil ud fra en valgt kategori. @author emil_
     public void categoriesAndDifficulty(Enum cat, Enum difficulty) {
         try {
-
+            if (difficulty == MyEnum.EASY) {
+                maxlength = 6;
+            }
+            if (difficulty == MyEnum.NORMAL) {
+                minlength = 6;
+                maxlength = 12;
+            }
+            if (difficulty == MyEnum.NORMAL) {
+                minlength = 10;
+                maxlength = 30;
+            }
             if (!MyEnum.WordsDR.equals(cat)) {
                 InputStream is = null;
                 if (MyEnum.DEFAULT.equals(cat)) {
@@ -113,13 +125,8 @@ public class Galgelogik {
 
             }
 
-            if (difficulty == MyEnum.EASY) {
-                setWords(MyEnum.EASY.getIntvalue());
-            }
-            if (difficulty == MyEnum.NORMAL) {
-                setWords(MyEnum.NORMAL.getIntvalue());
-            }
 
+            setWords();
 
             nulstil();
 
@@ -137,10 +144,10 @@ public class Galgelogik {
     }
 
 
-    private void setWords(int i) {
+    private void setWords() {
         ArrayList<String> temp = new ArrayList<String>();
         for (String word : muligeOrd) {
-            if (word.length() <= i) {
+            if (minlength <= word.length() && word.length() <= maxlength) {
                 temp.add(word);
 
             }
@@ -169,6 +176,7 @@ public class Galgelogik {
         spilletErVundet = true;
         brugteBogstaver.add("-");
 
+
         for (int n = 0; n < ordet.length(); n++) {
             String bogstav = ordet.substring(n, n + 1);
 
@@ -179,6 +187,7 @@ public class Galgelogik {
                 spilletErVundet = false;
             }
         }
+        brugteBogstaver.remove("-");
     }
 
     public void gætBogstav(String bogstav) {
@@ -267,8 +276,6 @@ public class Galgelogik {
         Collections.sort(muligeOrd);
         Set mySet = new HashSet(muligeOrd);
         Sharedp.prefs.edit().putStringSet("orddr", mySet).commit();
-        System.out.println(muligeOrd.size());
-        System.out.println("muligeOrd = " + muligeOrd);
         nulstil();
     }
 }
