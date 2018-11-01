@@ -1,7 +1,7 @@
 package com.vinkel.emil.the_hangmans_game;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -63,37 +63,37 @@ public class HovedmenuFragment extends android.app.Fragment implements View.OnCl
                 final EditText input = new EditText(getActivity());
                 input.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
                 builder.setView(input);
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        myownword = input.getText().toString();
-                        dialog.dismiss();
-                        if (myownword == null) {
-                            myownword = "NothingTyped";
-                        }
-                        String detskalværeord = myownword.replaceAll(" ", "").
-                                replaceAll("[^a-zæøå]", "").
-                                replaceAll("å", "aa").
-                                replaceAll("ø", "oe").
-                                replaceAll("æ", "ae");
-                        if (detskalværeord.length() < 3) {
-                            detskalværeord = "wordmustbelonger";
-                        }
-                        bundle.putString("myword", detskalværeord);
-                        System.out.println(detskalværeord);
-                        GameFragment gamefragment = new GameFragment();
-                        android.app.FragmentManager fm = getFragmentManager();
-                        android.app.FragmentTransaction ft = fm.beginTransaction();
-                        gamefragment.setArguments(bundle);
-                        ft.replace(R.id.mainactfragment, gamefragment)
-                                .addToBackStack(null)
-                                .commit();
-
-
+                builder.setPositiveButton("OK", (dialog, which) -> {
+                    myownword = input.getText().toString();
+                    dialog.dismiss();
+                    if (myownword == null) {
+                        myownword = "NothingTyped";
                     }
-                });
-                builder.show();
+                    String detskalværeord = myownword.replaceAll(" ", "").
+                            replaceAll("[^a-zæøå]", "").
+                            replaceAll("å", "aa").
+                            replaceAll("ø", "oe").
+                            replaceAll("æ", "ae");
+                    if (detskalværeord.length() < 3) {
+                        detskalværeord = "wordmustbelonger";
+                    }
+                    bundle.putString("myword", detskalværeord);
+                    System.out.println(detskalværeord);
+                    GameFragment gamefragment = new GameFragment();
+                    android.app.FragmentManager fm = getFragmentManager();
+                    android.app.FragmentTransaction ft = fm.beginTransaction();
+                    gamefragment.setArguments(bundle);
+                    ft.replace(R.id.mainactfragment, gamefragment)
+                            .addToBackStack(null)
+                            .commit();
 
+
+                });
+                AlertDialog dialog = builder.create();
+                dialog.setCanceledOnTouchOutside(false);
+                dialog.show();
+                dialog.getButton(android.support.v7.app.AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.WHITE);
+                dialog.getButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE).setTextColor(Color.WHITE);
 
             }
 

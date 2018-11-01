@@ -277,5 +277,6 @@ public class Galgelogik {
         Set mySet = new HashSet(muligeOrd);
         Sharedp.prefs.edit().putStringSet("orddr", mySet).commit();
         nulstil();
+
     }
 }

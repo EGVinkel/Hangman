@@ -9,7 +9,7 @@
     tools:context=".Hovedaktivitet_akt"
     tools:layout_editor_absoluteY="25dp">
 
-    <Button
+    <TextView
         android:id="@+id/Hemlig"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -58,7 +58,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
-        android:id="@+id/frameLayout"
+        android:id="@+id/mainactfragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -70,14 +70,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline2">
 
-        <fragment
-            android:id="@+id/mainactfragment"
-            android:name="com.vinkel.emil.the_hangmans_game.SettingsFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
     </FrameLayout>
 
     <LinearLayout
@@ -199,7 +191,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/frameLayout" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>
