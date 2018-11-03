@@ -1,6 +1,7 @@
 package com.vinkel.emil.the_hangmans_game;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.AnimationDrawable;
@@ -11,6 +12,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.view.KeyEvent;
@@ -18,6 +21,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
@@ -55,10 +60,12 @@ public class GameFragment extends android.app.Fragment implements View.OnClickLi
     private Chronometer cm;
     private int tid;
     private AnimationDrawable Animation;
+    private Animation ryst;
     private String navn;
     private boolean vent;
     private ProgressBar minBar;
     private AsyncTask taske;
+    private Vibrator myvib;
     int[] idList = {id.a, id.b, id.c, id.d, id.e, id.f, id.g, id.h, id.i, id.j,
             id.k, id.l, id.m, id.n, id.o, id.p, id.q, id.r, id.s, id.t, id.u, id.v,
             id.w, id.x, id.y, id.z};
@@ -87,6 +94,8 @@ public class GameFragment extends android.app.Fragment implements View.OnClickLi
         aniview = gamefragment.findViewById(id.animationwindow);
         aniview.setBackgroundResource(R.drawable.gallowshoved0);
         creepster = Typeface.createFromAsset(getActivity().getAssets(), "creepsterregular.ttf");
+        ryst = AnimationUtils.loadAnimation(getActivity(), R.anim.anima);
+        myvib = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
 
         //Opretter knapper
         for (int iterator = 0; iterator < buttons.length; iterator++) {
@@ -192,7 +201,7 @@ public class GameFragment extends android.app.Fragment implements View.OnClickLi
                 logik.myWord(getArguments().getString("myword"));
                 infoomordet.setText("Guess:" + "\n" + logik.getSynligtOrd());
                 startChronometer();
-
+                aniview.setBackgroundResource(R.drawable.gallowshoved0);
                 for (Button b : buttons) {
                     b.setClickable(true);
                     b.setPressed(false);
@@ -298,6 +307,8 @@ public class GameFragment extends android.app.Fragment implements View.OnClickLi
                 aniview.setBackgroundResource(drawable.animationlisttabt);
                 break;
         }
+        getView().startAnimation(ryst);
+        myvib.vibrate(VibrationEffect.createOneShot(200, 255));
         Animation = (AnimationDrawable) aniview.getBackground();
         Animation.start();
     }
@@ -345,7 +356,7 @@ public class GameFragment extends android.app.Fragment implements View.OnClickLi
             logik.categoriesAndDifficulty((Enum) getArguments().getSerializable("cat"), (Enum) getArguments().getSerializable("dif"));
             infoomordet.setText("Guess:" + "\n" + logik.getSynligtOrd());
         } else if (Sharedp.prefs.getStringSet("orddr", new HashSet<>()).isEmpty()) {
-            taske = new MyTask(this).execute();
+            taske = new MinAsynctask(this).execute();
 
         }
     }
@@ -372,12 +383,12 @@ public class GameFragment extends android.app.Fragment implements View.OnClickLi
     //Skiftet min tidligere Async task til en private nested class, for hermed at kunne undgå static field leaks.
     //Inspiriration fra følgende link https://stackoverflow.com/questions/44309241/warning-this-asynctask-class-should-be-static-or-leaks-might-occur, men koden
     //generelt egen, da jeg arbejder med fragment i stedet for activitet i eksemplet.
-    private static class MyTask extends AsyncTask<Void, Void, Void> {
+    private static class MinAsynctask extends AsyncTask<Void, Void, Void> {
 
         private WeakReference<GameFragment> gFragWeakReference;
 
 
-        MyTask(GameFragment context) {
+        MinAsynctask(GameFragment context) {
             gFragWeakReference = new WeakReference<>(context);
         }
 

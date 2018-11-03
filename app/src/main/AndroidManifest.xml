@@ -3,6 +3,7 @@
     package="com.vinkel.emil.the_hangmans_game">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <application
         android:name=".com.vinkel.emil.the_hangmans_game.playerdata.Sharedp"
         android:allowBackup="true"
@@ -26,7 +27,9 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".Helpactivity_akt"></activity>
+        <activity
+            android:name=".Helpactivity_akt"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

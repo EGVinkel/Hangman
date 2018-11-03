@@ -77,6 +77,9 @@ public class HovedmenuFragment extends android.app.Fragment implements View.OnCl
                     if (detskalværeord.length() < 3) {
                         detskalværeord = "wordmustbelonger";
                     }
+                    if (detskalværeord.length() > 20) {
+                        detskalværeord = "cheater";
+                    }
                     bundle.putString("myword", detskalværeord);
                     System.out.println(detskalværeord);
                     GameFragment gamefragment = new GameFragment();
