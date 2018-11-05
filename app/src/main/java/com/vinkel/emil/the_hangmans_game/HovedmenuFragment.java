@@ -1,6 +1,7 @@
 package com.vinkel.emil.the_hangmans_game;
 
 import android.app.AlertDialog;
+import android.app.FragmentManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputType;
@@ -24,6 +25,7 @@ public class HovedmenuFragment extends android.app.Fragment implements View.OnCl
     private Bundle bundle = new Bundle();
     private String myownword;
     private Enum temp = null;
+    private FragmentManager fm;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View mitfragment = inflater.inflate(R.layout.fragment_hovedmenu, container, false);
@@ -35,8 +37,7 @@ public class HovedmenuFragment extends android.app.Fragment implements View.OnCl
         text2.setText(R.string.difficulty);
         SeekBar difficultybar = mitfragment.findViewById(R.id.difficultybar);
         difficultybar.setOnSeekBarChangeListener(this);
-
-
+        fm = getFragmentManager();
         dropdown = mitfragment.findViewById(R.id.category);
         String[] items = new String[]{MyEnum.DEFAULT.toString(), MyEnum.HARRYPOTTER.toString(), MyEnum.STARWARS.toString(), MyEnum.FOOD.toString(), MyEnum.WordsDR.toString(), MyEnum.MyWord.toString()};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
@@ -50,10 +51,8 @@ public class HovedmenuFragment extends android.app.Fragment implements View.OnCl
         if (v == playbutton) {
             if (temp != MyEnum.MyWord) {
                 GameFragment gamefragment = new GameFragment();
-                android.app.FragmentManager fm = getFragmentManager();
-                android.app.FragmentTransaction ft = fm.beginTransaction();
                 gamefragment.setArguments(bundle);
-                ft.replace(R.id.mainactfragment, gamefragment)
+                fm.beginTransaction().replace(R.id.mainactfragment, gamefragment)
                         .addToBackStack(null)
                         .commit();
             }
@@ -83,10 +82,10 @@ public class HovedmenuFragment extends android.app.Fragment implements View.OnCl
                     bundle.putString("myword", detskalværeord);
                     System.out.println(detskalværeord);
                     GameFragment gamefragment = new GameFragment();
-                    android.app.FragmentManager fm = getFragmentManager();
-                    android.app.FragmentTransaction ft = fm.beginTransaction();
+
+
                     gamefragment.setArguments(bundle);
-                    ft.replace(R.id.mainactfragment, gamefragment)
+                    fm.beginTransaction().replace(R.id.mainactfragment, gamefragment)
                             .addToBackStack(null)
                             .commit();
 

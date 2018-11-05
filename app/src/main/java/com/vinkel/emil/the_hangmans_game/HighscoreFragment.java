@@ -1,5 +1,6 @@
 package com.vinkel.emil.the_hangmans_game;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,7 +15,7 @@ import com.vinkel.emil.the_hangmans_game.com.vinkel.emil.the_hangmans_game.playe
 import java.util.ArrayList;
 
 
-public class HighscoreFragment extends android.app.Fragment {
+public class HighscoreFragment extends Fragment {
     public HighscoreFragment() {
         // Required empty public constructor
     }
@@ -41,8 +42,8 @@ public class HighscoreFragment extends android.app.Fragment {
 
     }
 
-    public class HighscoreListadapter extends ArrayAdapter<Player> {
-        public HighscoreListadapter(Context context, ArrayList<Player> playerlist) {
+    private class HighscoreListadapter extends ArrayAdapter<Player> {
+        private HighscoreListadapter(Context context, ArrayList<Player> playerlist) {
             super(context, 0, playerlist);
 
         }

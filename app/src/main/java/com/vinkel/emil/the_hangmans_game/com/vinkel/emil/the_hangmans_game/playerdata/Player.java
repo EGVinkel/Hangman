@@ -23,8 +23,9 @@ public class Player {
         //Henter navne set, og kobler navne og værdier samme i hashmap
         Set myset = Sharedp.prefs.getStringSet("hscorenavne", new HashSet<>());
         HashMap<String, Integer> scoremap = new HashMap<>();
+
         for (Object s : myset) {
-            scoremap.put(s.toString(), Sharedp.prefs.getInt(s.toString(), 0));
+            scoremap.put(s.toString(), Sharedp.prefs.getInt(s.toString() + 1, 0));
         }
         //Sortere Hashmap, så højeste score er øverst.
 
@@ -38,7 +39,8 @@ public class Player {
         //Laver et nyt Player array og tilføjer players ud fra den sortede highscore
         ArrayList<Player> thelist = new ArrayList<>();
         for (Object s : sorted.keySet()) {
-            thelist.add(new Player(s.toString(), sorted.get(s.toString())));
+
+            thelist.add(new Player(Sharedp.prefs.getString(s.toString(), "def"), sorted.get(s.toString())));
         }
         return thelist;
 

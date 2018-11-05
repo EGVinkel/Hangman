@@ -1,6 +1,7 @@
 package com.vinkel.emil.the_hangmans_game;
 
 import android.annotation.SuppressLint;
+import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -48,7 +49,7 @@ import static com.vinkel.emil.the_hangmans_game.R.raw;
 import static com.vinkel.emil.the_hangmans_game.R.string;
 
 
-public class GameFragment extends android.app.Fragment implements View.OnClickListener {
+public class GameFragment extends Fragment implements View.OnClickListener {
 
     private final int score = 200;
     private TextView infoomordet;
@@ -240,7 +241,7 @@ public class GameFragment extends android.app.Fragment implements View.OnClickLi
                 throw new RuntimeException();
             }
         };
-        int thescore = (score - tid) + 5 * (logik.getOrdet().length()) - 5 * logik.getAntalForkerteBogstaver();
+        int thescore = (score - tid) + 5 * (logik.getOrdet().length()) - 10 * logik.getAntalForkerteBogstaver();
         System.out.println(thescore);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
@@ -256,9 +257,16 @@ public class GameFragment extends android.app.Fragment implements View.OnClickLi
                 navn = "Emil";
             }
             Set navneSet = Sharedp.prefs.getStringSet("hscorenavne", new HashSet<>());
-            navneSet.add(navn);
-            Sharedp.prefs.edit().putInt(navn, thescore).commit();
+            String playernavn = "player" + navneSet.size();
+            String playerscore = ("player" + navneSet.size()) + 1;
+
+            navneSet.add(playernavn);
+
+            Sharedp.prefs.edit().putString(playernavn, navn).commit();
+
+            Sharedp.prefs.edit().putInt(playerscore, thescore).commit();
             Sharedp.prefs.edit().putStringSet("hscorenavne", navneSet).commit();
+
 
             vent = true;
             handler.sendMessage(handler.obtainMessage());
@@ -356,6 +364,8 @@ public class GameFragment extends android.app.Fragment implements View.OnClickLi
             logik.categoriesAndDifficulty((Enum) getArguments().getSerializable("cat"), (Enum) getArguments().getSerializable("dif"));
             infoomordet.setText("Guess:" + "\n" + logik.getSynligtOrd());
         } else if (Sharedp.prefs.getStringSet("orddr", new HashSet<>()).isEmpty()) {
+            infoomordet.setText("Loading\nWords\nPlease Wait");
+            minBar.setVisibility(View.VISIBLE);
             taske = new MinAsynctask(this).execute();
 
         }
@@ -387,18 +397,9 @@ public class GameFragment extends android.app.Fragment implements View.OnClickLi
 
         private WeakReference<GameFragment> gFragWeakReference;
 
-
         MinAsynctask(GameFragment context) {
             gFragWeakReference = new WeakReference<>(context);
         }
-
-        protected void onPreExecute() {
-            GameFragment gamefrag = gFragWeakReference.get();
-            gamefrag.infoomordet.setText("Loading\nWords\nPlease Wait");
-            gamefrag.minBar.setVisibility(View.VISIBLE);
-
-        }
-
         protected Void doInBackground(Void... unused) {
             try {
                 gFragWeakReference.get().logik.hentOrdFraDr();
@@ -410,8 +411,10 @@ public class GameFragment extends android.app.Fragment implements View.OnClickLi
 
         protected void onPostExecute(Void unused) {
             GameFragment gamefrag = gFragWeakReference.get();
+
             gamefrag.minBar.setVisibility(View.GONE);
             gamefrag.infoomordet.setText("Guess:" + "\n" + gFragWeakReference.get().logik.getSynligtOrd());
+
         }
     }
 

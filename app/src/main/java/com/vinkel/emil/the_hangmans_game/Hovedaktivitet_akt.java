@@ -62,24 +62,32 @@ public class Hovedaktivitet_akt extends AppCompatActivity implements View.OnClic
                 fm.beginTransaction().replace(R.id.mainactfragment, new HighscoreFragment(), "highscore")
                         .addToBackStack(null)
                         .commit();
-                return;
+            }
+            if (fm.findFragmentByTag("highscore") != null) {
+                fm.beginTransaction().replace(R.id.mainactfragment, fm.findFragmentByTag("highscore"), "highscore").addToBackStack(null).commit();
             }
 
         }
         if (v == mm) {
-            fm.popBackStackImmediate();
+            for (int i = 0; i < fm.getBackStackEntryCount(); i++) {
+                fm.popBackStack();
+            }
+
+            fm.beginTransaction().replace(R.id.mainactfragment, fm.findFragmentByTag("Hovedmenufrag"), "Hovedmenufrag")
+                    .commit();
 
         }
 
         if (v == settings) {
-
             if (fm.findFragmentByTag("settings") == null) {
                 fm.beginTransaction().replace(R.id.mainactfragment, new SettingsFragment(), "settings")
                         .addToBackStack(null)
                         .commit();
-                return;
             }
-            return;
+            if (fm.findFragmentByTag("settings") != null) {
+                fm.beginTransaction().replace(R.id.mainactfragment, fm.findFragmentByTag("settings"), "settings").addToBackStack(null).commit();
+            }
+
         }
 
 
@@ -100,7 +108,7 @@ public class Hovedaktivitet_akt extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onBackPressed() {
-        int count = getFragmentManager().getBackStackEntryCount();
+        int count = fm.getBackStackEntryCount();
 
         if (count == 0) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -121,9 +129,9 @@ public class Hovedaktivitet_akt extends AppCompatActivity implements View.OnClic
             dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.WHITE);
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.WHITE);
 
-        } else {
-            getFragmentManager().popBackStack();
         }
+        fm.popBackStackImmediate();
+
 
     }
 
