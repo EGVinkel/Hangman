@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/background_material_dark"
     android:clickable="true"
-    tools:context=".Hovedaktivitet_akt"
+    tools:context=".MainActivity"
     tools:layout_editor_absoluteY="25dp">
 
 
@@ -20,7 +20,7 @@
         android:layout_marginBottom="8dp"
         android:autoSizeTextType="uniform"
         android:fontFamily="@font/creepster"
-        android:textAlignment="viewStart"
+        android:textAlignment="textStart"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,6 +44,7 @@
         android:id="@+id/linearLayout5"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:gravity="center_vertical"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -54,6 +55,7 @@
             android:id="@+id/linearLayouta"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -147,6 +149,7 @@
             android:id="@+id/linearLayouth"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -241,6 +244,7 @@
             android:id="@+id/linearLayouto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -332,6 +336,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -468,7 +473,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/gameinfo" />
 
-    <Chronometer
+    <com.vinkel.emil.the_hangmans_game.PauseableChronometer
         android:id="@+id/count"
         android:layout_width="0dp"
         android:layout_height="0dp"

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/hovedmenuFragment">
+
+    <fragment
+        android:id="@+id/hovedmenuFragment"
+        android:name="com.vinkel.emil.the_hangmans_game.HovedmenuFragment"
+        android:label="HovedmenuFragment">
+        <action
+            android:id="@+id/action_hovedmenuFragment_to_gameFragment"
+            app:destination="@id/gameFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/hovedmenuFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/highscoreFragment"
+        android:name="com.vinkel.emil.the_hangmans_game.HighscoreFragment"
+        android:label="fragment_highscore"
+        tools:layout="@layout/fragment_highscore" />
+    <fragment
+        android:id="@+id/gameFragment"
+        android:name="com.vinkel.emil.the_hangmans_game.GameFragment"
+        android:label="GameFragment" >
+        <action
+            android:id="@+id/action_gameFragment_to_endofGameFragment"
+            app:destination="@id/endofGameFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/hovedmenuFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.vinkel.emil.the_hangmans_game.SettingsFragment"
+        android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/helpFragment"
+        android:name="com.vinkel.emil.the_hangmans_game.HelpFragment"
+        android:label="help_frag"
+        tools:layout="@layout/help_frag" />
+    <fragment
+        android:id="@+id/endofGameFragment"
+        android:name="com.vinkel.emil.the_hangmans_game.EndofGameFragment"
+        android:label="fragment_endof_game"
+        tools:layout="@layout/fragment_endof_game" >
+        <action
+            android:id="@+id/action_endofGameFragment_to_gameFragment"
+            app:destination="@id/gameFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/hovedmenuFragment" />
+    </fragment><action android:id="@+id/action_global_highscoreFragment2" app:destination="@id/highscoreFragment" app:enterAnim="@anim/nav_default_enter_anim" app:exitAnim="@anim/nav_default_exit_anim" app:popEnterAnim="@anim/nav_default_pop_enter_anim" app:popExitAnim="@anim/nav_default_exit_anim"/><action android:id="@+id/action_global_settingsFragment" app:destination="@id/settingsFragment" app:enterAnim="@anim/nav_default_enter_anim" app:exitAnim="@anim/nav_default_exit_anim" app:popEnterAnim="@anim/nav_default_pop_enter_anim" app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+
+</navigation>

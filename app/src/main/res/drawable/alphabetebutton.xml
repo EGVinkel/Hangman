@@ -19,8 +19,8 @@
                 android:top="0dp" />
 
             <size
-                android:height="30dp"
-                android:width="30dp" />
+                android:height="35dp"
+                android:width="35dp" />
 
         </shape>
     </item>
@@ -43,8 +43,8 @@
                 android:top="0dp" />
 
             <size
-                android:height="30dp"
-                android:width="30dp" />
+                android:height="35dp"
+                android:width="35dp" />
 
         </shape>    </item>
 </layer-list>

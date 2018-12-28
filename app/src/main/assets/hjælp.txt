@@ -1,0 +1,4 @@
+Spillet går ud på at gætte det hemmelige ord.
+Du må gætte forkert syv gange før du bliver hængt
+og dermed har tabt.
+Du må kun vælge et bogstav ad gangen.

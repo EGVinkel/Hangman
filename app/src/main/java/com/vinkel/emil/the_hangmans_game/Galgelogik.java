@@ -2,8 +2,6 @@ package com.vinkel.emil.the_hangmans_game;
 
 import android.content.Context;
 
-import com.vinkel.emil.the_hangmans_game.com.vinkel.emil.the_hangmans_game.playerdata.Sharedp;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,13 +27,25 @@ public class Galgelogik {
     private boolean sidsteBogstavVarKorrekt;
     private boolean spilletErVundet;
     private boolean spilletErTabt;
-    private Context con;
+    private boolean gameinprogress=false;
     private int minlength = 3;
     private int maxlength = 20;
 
-    public ArrayList<String> getBrugteBogstaver() {
-        return brugteBogstaver;
+    public boolean isGameinprogress() {
+        return gameinprogress;
     }
+
+    public void setGameinprogress(boolean gameinprogress) {
+        this.gameinprogress = gameinprogress;
+    }
+
+
+
+
+
+
+
+    public ArrayList<String> getBrugteBogstaver() {return brugteBogstaver;}
 
     public String getSynligtOrd() {
         return synligtOrd;
@@ -65,17 +75,13 @@ public class Galgelogik {
         return forkerteBogstaver;
     }
 
-    public boolean erSpilletSlut() {
-        return spilletErTabt || spilletErVundet;
-    }
+    public Galgelogik() {
 
-
-    public Galgelogik(Context context) {
-        con = context;
     }
 
     //tilføjer mulige ord til arrayet fra text fil ud fra en valgt kategori. @author emil_
-    public void categoriesAndDifficulty(Enum cat, Enum difficulty) {
+    public void categoriesAndDifficulty(Enum cat, Enum difficulty,Context con) {
+
         try {
             if (difficulty == MyEnum.EASY) {
                 maxlength = 6;
@@ -118,7 +124,7 @@ public class Galgelogik {
 
 
             if (MyEnum.WordsDR.equals(cat)) {
-                Set<String> myset = Sharedp.prefs.getStringSet("orddr", new HashSet<String>());
+                Set<String> myset = TheGameState.prefs.getStringSet("orddr", new HashSet<String>());
                 for (String word : myset) {
                     muligeOrd.add(word);
                 }
@@ -275,7 +281,7 @@ public class Galgelogik {
 
         Collections.sort(muligeOrd);
         Set mySet = new HashSet(muligeOrd);
-        Sharedp.prefs.edit().putStringSet("orddr", mySet).commit();
+        TheGameState.prefs.edit().putStringSet("orddr", mySet).commit();
         nulstil();
 
     }

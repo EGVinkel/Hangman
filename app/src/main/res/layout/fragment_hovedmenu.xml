@@ -8,17 +8,17 @@
     android:layout_centerInParent="true"
     android:layout_centerHorizontal="false"
     android:layout_centerVertical="false"
-    android:background="@color/background_material_dark"
-    tools:context=".Hovedaktivitet_akt"
+    tools:context=".MainActivity"
     tools:layout_editor_absoluteY="25dp">
 
 
     <TextView
         android:id="@+id/textViewdif"
-        android:layout_width="92dp"
-        android:layout_height="41dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:autoSizeTextType="uniform"
@@ -33,12 +33,10 @@
         android:id="@+id/imageView"
         android:layout_width="272dp"
         android:layout_height="254dp"
-
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:contentDescription="velkomstbillede"
+        android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline14"
         app:layout_constraintEnd_toStartOf="@+id/guideline12"
         app:layout_constraintStart_toStartOf="@+id/guideline11"
@@ -78,59 +76,40 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.05" />
+        app:layout_constraintGuide_percent="0.02" />
 
-    <FrameLayout
-        android:layout_width="272dp"
-        android:layout_height="49dp"
+    <Button
+        android:id="@+id/playbutton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline17"
+        android:autoSizeTextType="uniform"
+        android:background="@drawable/ripple"
+        android:baselineAligned="false"
+        android:fontFamily="@font/creepster"
+        android:text="@string/play"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintBottom_toTopOf="@+id/guideline29"
         app:layout_constraintEnd_toStartOf="@+id/guideline12"
         app:layout_constraintStart_toStartOf="@+id/guideline11"
-        app:layout_constraintTop_toTopOf="@+id/guideline15">
-
-        <Button
-            android:id="@+id/playbutton"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:autoSizeTextType="uniform"
-            android:background="@drawable/ripple"
-            android:baselineAligned="false"
-            android:fontFamily="@font/creepster"
-            android:text="@string/play"
-            android:textColor="@android:color/background_light"
-            app:layout_constraintBottom_toTopOf="@+id/guideline14"
-            app:layout_constraintEnd_toStartOf="@+id/guideline12"
-            app:layout_constraintStart_toStartOf="@+id/guideline11"
-            app:layout_constraintTop_toTopOf="@+id/guideline16"
-            tools:elevation="@android:dimen/app_icon_size" />
-    </FrameLayout>
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline17"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.85" />
+        app:layout_constraintTop_toTopOf="@+id/guideline15"
+        tools:elevation="@android:dimen/app_icon_size" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.30" />
+        app:layout_constraintGuide_percent="0.40" />
 
     <TextView
         android:id="@+id/textViewcat"
-        android:layout_width="76dp"
-        android:layout_height="32dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
@@ -140,7 +119,7 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline15"
         app:layout_constraintEnd_toStartOf="@+id/guideline18"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewdif"
+        app:layout_constraintTop_toTopOf="@+id/guideline19"
         tools:text="@string/category" />
 
     <android.support.constraint.Guideline
@@ -150,35 +129,34 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.65" />
 
+    <SeekBar
+        android:id="@+id/difficultybar"
+        style="@android:style/Widget.SeekBar"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="8dp"
+        android:foregroundGravity="center_vertical"
+        android:max="2"
+        android:progress="1"
+        android:progressBackgroundTint="@color/colorPrimaryDark"
+        android:progressTint="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toTopOf="@+id/guideline19"
+        app:layout_constraintEnd_toStartOf="@+id/guideline12"
+        app:layout_constraintStart_toStartOf="@+id/guideline18"
+        app:layout_constraintTop_toTopOf="@+id/guideline14" />
+
     <FrameLayout
+        android:id="@+id/SpinnerLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline19"
-        app:layout_constraintEnd_toStartOf="@+id/guideline12"
-        app:layout_constraintStart_toStartOf="@+id/guideline18"
-        app:layout_constraintTop_toTopOf="@+id/guideline14">
-
-        <SeekBar
-            android:id="@+id/difficultybar"
-            style="@style/Widget.AppCompat.SeekBar.Discrete"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:max="2"
-            android:progress="1"
-            tools:layout_editor_absoluteX="116dp"
-            tools:layout_editor_absoluteY="312dp" />
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/SpinnerLayout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
         android:background="@drawable/roundedcorners"
         app:layout_constraintBottom_toTopOf="@+id/guideline15"
         app:layout_constraintEnd_toStartOf="@+id/guideline12"
@@ -199,6 +177,13 @@
             tools:layout_editor_absoluteY="376dp" />
 
     </FrameLayout>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline29"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.85" />
 
 
 </android.support.constraint.ConstraintLayout>

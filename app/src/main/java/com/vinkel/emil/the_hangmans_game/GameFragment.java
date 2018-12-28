@@ -1,7 +1,5 @@
 package com.vinkel.emil.the_hangmans_game;
 
-import android.annotation.SuppressLint;
-import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -9,61 +7,43 @@ import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-import android.os.SystemClock;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.support.v7.app.AlertDialog;
-import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.Chronometer;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.vinkel.emil.the_hangmans_game.com.vinkel.emil.the_hangmans_game.playerdata.Sharedp;
-
 import java.lang.ref.WeakReference;
 import java.util.HashSet;
-import java.util.Set;
 
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import nl.dionsegijn.konfetti.KonfettiView;
 import nl.dionsegijn.konfetti.models.Shape;
 import nl.dionsegijn.konfetti.models.Size;
-
 import static com.vinkel.emil.the_hangmans_game.R.color;
 import static com.vinkel.emil.the_hangmans_game.R.drawable;
 import static com.vinkel.emil.the_hangmans_game.R.id;
 import static com.vinkel.emil.the_hangmans_game.R.layout;
 import static com.vinkel.emil.the_hangmans_game.R.raw;
-import static com.vinkel.emil.the_hangmans_game.R.string;
 
 
-public class GameFragment extends Fragment implements View.OnClickListener {
-
-    private final int score = 200;
+public class GameFragment extends android.support.v4.app.Fragment implements View.OnClickListener{
     private TextView infoomordet;
     private ImageView aniview;
     private TextView infobogstaver;
-    private Galgelogik logik;
     private boolean soundact;
-    private Bundle restartgamebundle;
-    private Chronometer cm;
-    private int tid;
+    private Bundle endgameBundle;
+    private PauseableChronometer cm;
     private AnimationDrawable Animation;
     private Animation ryst;
-    private String navn;
-    private boolean vent;
     private ProgressBar minBar;
     private AsyncTask taske;
     private Vibrator myvib;
@@ -76,69 +56,84 @@ public class GameFragment extends Fragment implements View.OnClickListener {
     private KonfettiView konfettiview;
     private Typeface creepster;
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View gamefragment = inflater.inflate(layout.fragment_game, container, false);
-        if (logik == null) {
-            logik = new Galgelogik(getActivity());
-        }
+        endgameBundle = new Bundle();
         //Diverse oprettelser
         konfettiview = getActivity().findViewById(id.viewKonfetti);
+        creepster = Typeface.createFromAsset(getActivity().getAssets(), "creepsterregular.ttf");
         cm = gamefragment.findViewById(id.count);
         cm.setTypeface(creepster);
         minBar = gamefragment.findViewById(id.progressBar);
         minBar.setVisibility(View.GONE);
         //Hent lydeffecter til/fra
-        soundact = Sharedp.prefs.getBoolean("pref_sound", true);
+        soundact = TheGameState.prefs.getBoolean("pref_sound", true);
         infoomordet = gamefragment.findViewById(id.gameinfo);
         infobogstaver = gamefragment.findViewById(id.wrongletters);
         aniview = gamefragment.findViewById(id.animationwindow);
         aniview.setBackgroundResource(R.drawable.gallowshoved0);
-        creepster = Typeface.createFromAsset(getActivity().getAssets(), "creepsterregular.ttf");
         ryst = AnimationUtils.loadAnimation(getActivity(), R.anim.anima);
         myvib = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+        Navigation.findNavController(getActivity(),R.id.nav_host).getGraph().setStartDestination(id.gameFragment);
 
-        //Opretter knapper
-        for (int iterator = 0; iterator < buttons.length; iterator++) {
-            buttons[iterator] = gamefragment.findViewById(idList[iterator]);
-            buttons[iterator].setOnClickListener(this);
+
+                //Opretter knapper
+                for (int iterator = 0; iterator < buttons.length; iterator++) {
+                    buttons[iterator] = gamefragment.findViewById(idList[iterator]);
+                    buttons[iterator].setOnClickListener(this);
+                    buttons[iterator].setTypeface(creepster);
+                }
+
+
+                if(!TheGameState.GameLogic.isGameinprogress()) {
+                //Kategori selvskrevet ord:
+                if (getArguments().getSerializable("cat") == MyEnum.MyWord) {
+                    endgameBundle.putString("myword", getArguments().getString("myword"));
+                    TheGameState.GameLogic.myWord(getArguments().getString("myword"));
+                    infoomordet.setText("Guess:" + "\n" + TheGameState.GameLogic.getSynligtOrd());
+                }
+                //Kategori DR ord:
+                    if (getArguments().getSerializable("cat") == MyEnum.WordsDR) {
+                        getWords();
+                    }
+                //Andre Kategorier:
+                if (getArguments().getSerializable("cat") != MyEnum.WordsDR && getArguments().getSerializable("cat") != MyEnum.MyWord) {
+                    TheGameState.GameLogic.categoriesAndDifficulty((Enum) getArguments().getSerializable("cat"), (Enum) getArguments().getSerializable("dif"), getContext());
+                    infoomordet.setText("Guess:" + "\n" + TheGameState.GameLogic.getSynligtOrd());
+                }
+
+                TheGameState.GameLogic.setGameinprogress(true);
+                cm.start();
+                }
+
+        cm.setCurrentTime(TheGameState.timewhendestroyed);
+        cm.start();
+        if((getArguments().getSerializable("cat") == MyEnum.WordsDR&&!TheGameState.prefs.getStringSet("orddr", new HashSet<>()).isEmpty())){
+            updateScreen();
         }
-        for (Button b : buttons) {
-            b.setTypeface(creepster);
+        if(getArguments().getSerializable("cat") != MyEnum.WordsDR&&TheGameState.GameLogic.isGameinprogress()) {
+            updateScreen();
         }
 
 
-        //Kategori selvskrevet ord:
-        if (getArguments().getSerializable("cat") == MyEnum.MyWord) {
-            logik.myWord(getArguments().getString("myword"));
-            infoomordet.setText("Guess:" + "\n" + logik.getSynligtOrd());
-        }
-        //Kategori DR ord:
-        if (getArguments().getSerializable("cat") == MyEnum.WordsDR) {
-            getWords();
-        }
-        //Andre Kategorier:
-        if (getArguments().getSerializable("cat") != MyEnum.WordsDR && getArguments().getSerializable("cat") != MyEnum.MyWord) {
-            logik.categoriesAndDifficulty((Enum) getArguments().getSerializable("cat"), (Enum) getArguments().getSerializable("dif"));
-            infoomordet.setText("Guess:" + "\n" + logik.getSynligtOrd());
-        }
-        startChronometer();
-
-
-        restartgamebundle = new Bundle();
-        //adds category to restart
-        restartgamebundle.putSerializable("cat", getArguments().getSerializable("cat"));
-        //adds difficulty to restart
-        restartgamebundle.putSerializable("dif", getArguments().getSerializable("dif"));
 
 
 
+
+
+
+        endgameBundle.putSerializable("cat", getArguments().getSerializable("cat"));
+
+        endgameBundle.putSerializable("dif", getArguments().getSerializable("dif"));
         return gamefragment;
     }
 
     @Override
     public void onClick(View view) {
-        if (logik.getSynligtOrd() == null) {
+        if (TheGameState.GameLogic.getSynligtOrd() == null) {
             return;
         }
 
@@ -148,11 +143,11 @@ public class GameFragment extends Fragment implements View.OnClickListener {
                     Button tempb = (Button) view;
                     String str = tempb.getText().toString();
                     infoomordet.setText(str);
-                    logik.gætBogstav(str);
+                    TheGameState.GameLogic.gætBogstav(str);
                     view.setClickable(false);
-                    ((Button) view).setTextColor(getResources().getColor(color.colorPrimaryDark));
-                    if (!logik.erSidsteBogstavKorrekt()) {
-                        makeAnimation(logik.getAntalForkerteBogstaver());
+                    ((Button) view).setTextColor(getActivity().getColor(color.colorPrimaryDark));
+                    if (!TheGameState.GameLogic.erSidsteBogstavKorrekt()) {
+                        makeAnimation(TheGameState.GameLogic.getAntalForkerteBogstaver());
                     }
                     updateScreen();
                 }
@@ -162,132 +157,30 @@ public class GameFragment extends Fragment implements View.OnClickListener {
     }
 
     private void updateScreen() {
-        String infoord = "Guess:" + "\n" + logik.getSynligtOrd().substring(0, 1).toUpperCase() + logik.getSynligtOrd().substring(1).toLowerCase();
+        String infoord = "Guess:" + "\n" + TheGameState.GameLogic.getSynligtOrd().substring(0, 1).toUpperCase() + TheGameState.GameLogic.getSynligtOrd().substring(1).toLowerCase();
         infoomordet.setText(infoord);
-        String infobogstave = "\nYou have " + logik.getAntalForkerteBogstaver() + " wrong guess(es):" + logik.getForkertebogstaver();
+        String infobogstave = "\nYou have " + TheGameState.GameLogic.getAntalForkerteBogstaver() + " wrong guess(es):" + TheGameState.GameLogic.getForkertebogstaver();
         infobogstaver.setText(infobogstave);
 
 
-        if (logik.erSpilletVundet()) {
+        if (TheGameState.GameLogic.erSpilletVundet()) {
             cm.stop();
+            endgameBundle.putInt("tid",(int)cm.getCurrentTime()/1000);
             makeConfetti();
             soundeffects();
-            highscore();
-            String won = "Do you want to try again?";
-            endOfGameDialog(won);
+            TheGameState.GameLogic.setGameinprogress(false);
+            NavHostFragment.findNavController(this).navigate(id.action_gameFragment_to_endofGameFragment,endgameBundle);
+
+
         }
-        if (logik.erSpilletTabt()) {
+        if (TheGameState.GameLogic.erSpilletTabt()) {
             cm.stop();
             soundeffects();
-            String lost = "You have lost, the word was:\n" + logik.getOrdet().substring(0, 1).toUpperCase() + logik.getOrdet().substring(1).toLowerCase();
-            endOfGameDialog(lost);
+            TheGameState.GameLogic.setGameinprogress(false);
+           NavHostFragment.findNavController(this).navigate(id.action_gameFragment_to_endofGameFragment,endgameBundle);
         }
     }
 
-    //Metode til at genstarte spillet
-    private void restartGame() {
-        logik.nulstil();
-        GameFragment gamefragment = new GameFragment();
-        gamefragment.setArguments(restartgamebundle);
-        getFragmentManager().beginTransaction().replace(id.mainactfragment, gamefragment).addToBackStack(null).commit();
-
-    }
-
-    public void endOfGameDialog(String message) {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-        builder.setPositiveButton(string.playagain, (dialog, id) -> {
-            if (MyEnum.MyWord == getArguments().getSerializable("cat")) {
-                logik.myWord(getArguments().getString("myword"));
-                infoomordet.setText("Guess:" + "\n" + logik.getSynligtOrd());
-                startChronometer();
-                aniview.setBackgroundResource(R.drawable.gallowshoved0);
-                for (Button b : buttons) {
-                    b.setClickable(true);
-                    b.setPressed(false);
-                    b.setTextColor(Color.WHITE);
-                }
-            }
-            if (MyEnum.MyWord != getArguments().getSerializable("cat")) {
-                restartGame();
-            }
-        });
-
-        builder.setNegativeButton(string.cancel, (dialog, id) -> {
-            dialog.dismiss();
-            getFragmentManager().beginTransaction().replace(R.id.mainactfragment, getFragmentManager().findFragmentByTag("Hovedmenufrag"))
-                    .addToBackStack(null)
-                    .commit();
-        });
-        builder.setTitle(message);
-
-        AlertDialog dialog = builder.create();
-        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
-        dialog.setOnCancelListener(dialog1 -> getActivity().onBackPressed());
-
-        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.WHITE);
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.WHITE);
-    }
-
-    //Dialog til indtastning på highscore
-    public boolean highscore() {
-
-        @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
-            @Override
-            public void handleMessage(Message mesg) {
-                throw new RuntimeException();
-            }
-        };
-        int thescore = (score - tid) + 5 * (logik.getOrdet().length()) - 10 * logik.getAntalForkerteBogstaver();
-        System.out.println(thescore);
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-        builder.setTitle("You have won using: " + logik.getBrugteBogstaver().size() / 2 + " attempts");
-        builder.setMessage("Your score is: " + thescore + " Whats your name?!");
-        final EditText input = new EditText(getActivity());
-        input.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
-        builder.setView(input);
-        builder.setPositiveButton("OK", (dialog, which) -> {
-            navn = input.getText().toString();
-            dialog.dismiss();
-            if (navn == null || navn.equalsIgnoreCase("")) {
-                navn = "Emil";
-            }
-            Set navneSet = Sharedp.prefs.getStringSet("hscorenavne", new HashSet<>());
-            String playernavn = "player" + navneSet.size();
-            String playerscore = ("player" + navneSet.size()) + 1;
-
-            navneSet.add(playernavn);
-
-            Sharedp.prefs.edit().putString(playernavn, navn).commit();
-
-            Sharedp.prefs.edit().putInt(playerscore, thescore).commit();
-            Sharedp.prefs.edit().putStringSet("hscorenavne", navneSet).commit();
-
-
-            vent = true;
-            handler.sendMessage(handler.obtainMessage());
-
-
-        });
-        AlertDialog dialog = builder.create();
-        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
-        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.WHITE);
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.WHITE);
-        dialog.setOnCancelListener(dialog1 -> getActivity().onBackPressed());
-        try {
-            Looper.loop();
-        } catch (RuntimeException e) {
-        }
-
-        return vent;
-
-    }
 
     private void makeAnimation(int i) {
 
@@ -339,31 +232,25 @@ public class GameFragment extends Fragment implements View.OnClickListener {
     private void soundeffects() {
 
         if (soundact) {
-            if (logik.erSpilletVundet()) {
+            if (TheGameState.GameLogic.erSpilletVundet()) {
                 MediaPlayer.create(getActivity(), raw.cheering).start();
                 MediaPlayer.create(getActivity(), raw.crowdapplause1).start();
             }
-            if (logik.erSpilletTabt()) {
+            if (TheGameState.GameLogic.erSpilletTabt()) {
                 MediaPlayer.create(getActivity(), raw.boo3).start();
             }
         }
 
     }
 
-    private void startChronometer() {
-        tid = 0;
-        cm.setBase(SystemClock.elapsedRealtime());
-        cm.start();
-        cm.setFormat("%s");
-        cm.setOnChronometerTickListener(chronometer -> tid++);
-    }
 
     private void getWords() {
         //Kontroller i prefs manager om ordene allerede findes, og henter derfra hvis de gør.
-        if (!Sharedp.prefs.getStringSet("orddr", new HashSet<>()).isEmpty()) {
-            logik.categoriesAndDifficulty((Enum) getArguments().getSerializable("cat"), (Enum) getArguments().getSerializable("dif"));
-            infoomordet.setText("Guess:" + "\n" + logik.getSynligtOrd());
-        } else if (Sharedp.prefs.getStringSet("orddr", new HashSet<>()).isEmpty()) {
+        if (!TheGameState.prefs.getStringSet("orddr", new HashSet<>()).isEmpty()) {
+            TheGameState.GameLogic.categoriesAndDifficulty((Enum) getArguments().getSerializable("cat"), (Enum) getArguments().getSerializable("dif"),getContext());
+            infoomordet.setText("Guess:" + "\n" + TheGameState.GameLogic.getSynligtOrd());
+
+        } else if (TheGameState.prefs.getStringSet("orddr", new HashSet<>()).isEmpty()) {
             infoomordet.setText("Loading\nWords\nPlease Wait");
             minBar.setVisibility(View.VISIBLE);
             taske = new MinAsynctask(this).execute();
@@ -374,6 +261,7 @@ public class GameFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
+        cm.start();
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();
         getView().setOnKeyListener((v, keyCode, event) -> {
@@ -390,6 +278,19 @@ public class GameFragment extends Fragment implements View.OnClickListener {
 
     }
 
+    @Override
+    public void onDestroyView() {
+        TheGameState.timewhendestroyed =cm.getCurrentTime();
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        cm.stop();
+    }
+
+
     //Skiftet min tidligere Async task til en private nested class, for hermed at kunne undgå static field leaks.
     //Inspiriration fra følgende link https://stackoverflow.com/questions/44309241/warning-this-asynctask-class-should-be-static-or-leaks-might-occur, men koden
     //generelt egen, da jeg arbejder med fragment i stedet for activitet i eksemplet.
@@ -402,7 +303,7 @@ public class GameFragment extends Fragment implements View.OnClickListener {
         }
         protected Void doInBackground(Void... unused) {
             try {
-                gFragWeakReference.get().logik.hentOrdFraDr();
+                TheGameState.GameLogic.hentOrdFraDr();
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
@@ -411,12 +312,13 @@ public class GameFragment extends Fragment implements View.OnClickListener {
 
         protected void onPostExecute(Void unused) {
             GameFragment gamefrag = gFragWeakReference.get();
-
             gamefrag.minBar.setVisibility(View.GONE);
-            gamefrag.infoomordet.setText("Guess:" + "\n" + gFragWeakReference.get().logik.getSynligtOrd());
+            gamefrag.infoomordet.setText("Guess:" + "\n" + TheGameState.GameLogic.getSynligtOrd());
+            gamefrag.updateScreen();
 
         }
     }
+
 
 
 

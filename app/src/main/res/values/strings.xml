@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">s175107 Hangman</string>
     <string name="welcoming">Welcome to Hangman</string>
-    <string name="play">Play the game</string>
+    <string name="play">Play</string>
     <string name="highscore">Highscore</string>
     <string name="help">Help!</string>
     <string name="helpscreen">How to play the game!</string>
@@ -23,4 +23,12 @@
     <string name="Highscorelist">Highscore List</string>
     <string name="name">Name:</string>
     <string name="score">Score:</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">The Hangman Game</string>
+    <string name="nav_header_subtitle">Emilvinkel@gmail.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="helpinfo">The game is about guessing the secret word. When you have made seven wrong guesses you will be hanged, thereby losing the game. You can only select one letter at a time.</string>
+
 </resources>

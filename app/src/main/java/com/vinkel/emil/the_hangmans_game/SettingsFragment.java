@@ -2,23 +2,19 @@ package com.vinkel.emil.the_hangmans_game;
 
 
 import android.os.Bundle;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
-
-import com.vinkel.emil.the_hangmans_game.com.vinkel.emil.the_hangmans_game.playerdata.Sharedp;
+import android.support.v7.preference.PreferenceFragmentCompat;
 
 import java.util.HashSet;
 
-public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener {
-    private Preference deletedr;
-    private Preference deletehighscore;
-    private Preference music;
-    private Preference sound;
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+public class SettingsFragment extends PreferenceFragmentCompat implements android.support.v7.preference.Preference.OnPreferenceClickListener {
+    private android.support.v7.preference.Preference deletedr;
+    private android.support.v7.preference.Preference  deletehighscore;
+    private android.support.v7.preference.Preference  music;
+    private android.support.v7.preference.Preference  sound;
 
-        addPreferencesFromResource(R.xml.preferences);
+    @Override
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        addPreferencesFromResource(R.xml.settings_frag);
         music = findPreference("pref_music");
         sound = findPreference("pref_sound");
         sound.setOnPreferenceClickListener(this);
@@ -27,39 +23,37 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         deletedr.setOnPreferenceClickListener(this);
         deletehighscore = findPreference("deletehs");
         deletehighscore.setOnPreferenceClickListener(this);
-
     }
 
-
     @Override
-    public boolean onPreferenceClick(Preference preference) {
+    public boolean onPreferenceClick(android.support.v7.preference.Preference preference) {
 
         if (preference == deletedr) {
-            Sharedp.prefs.edit().putStringSet("orddr", new HashSet<>()).commit();
+            TheGameState.prefs.edit().putStringSet("orddr", new HashSet<>()).commit();
         }
 
         if (preference == deletehighscore) {
-            Sharedp.prefs.edit().putStringSet("hscorenavne", new HashSet<>()).commit();
+            TheGameState.prefs.edit().putStringSet("hscorenavne", new HashSet<>()).commit();
         }
 
         if (preference == music) {
-            if (Sharedp.prefs.getBoolean("pref_music", true)) {
-                ((Hovedaktivitet_akt) getActivity()).startTheme();
+            if (TheGameState.prefs.getBoolean("pref_music", true)) {
+                ((MainActivity) getActivity()).startTheme();
             }
-            if (!Sharedp.prefs.getBoolean("pref_music", true)) {
-                ((Hovedaktivitet_akt) getActivity()).stopTheme();
+            if (!TheGameState.prefs.getBoolean("pref_music", true)) {
+                ((MainActivity) getActivity()).stopTheme();
             }
 
         }
         if (preference == sound) {
 
 
-            if (Sharedp.prefs.getBoolean("pref_sound", true)) {
-                Sharedp.prefs.edit().putBoolean("pref_sound", true).apply();
+            if (TheGameState.prefs.getBoolean("pref_sound", true)) {
+                TheGameState.prefs.edit().putBoolean("pref_sound", true).apply();
 
             }
-            if (!Sharedp.prefs.getBoolean("pref_sound", true)) {
-                Sharedp.prefs.edit().putBoolean("pref_sound", false).apply();
+            if (!TheGameState.prefs.getBoolean("pref_sound", true)) {
+                TheGameState.prefs.edit().putBoolean("pref_sound", false).apply();
 
 
             }
@@ -69,7 +63,5 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
         return true;
     }
-
-
 }
 

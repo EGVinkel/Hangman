@@ -1,9 +1,9 @@
 package com.vinkel.emil.the_hangmans_game;
 
 import android.app.AlertDialog;
-import android.app.FragmentManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,14 +18,17 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
-public class HovedmenuFragment extends android.app.Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener, OnSeekBarChangeListener {
+
+public class HovedmenuFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener, OnSeekBarChangeListener {
     private Button playbutton;
     private Spinner dropdown;
     private Bundle bundle = new Bundle();
     private String myownword;
     private Enum temp = null;
-    private FragmentManager fm;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View mitfragment = inflater.inflate(R.layout.fragment_hovedmenu, container, false);
@@ -37,7 +40,7 @@ public class HovedmenuFragment extends android.app.Fragment implements View.OnCl
         text2.setText(R.string.difficulty);
         SeekBar difficultybar = mitfragment.findViewById(R.id.difficultybar);
         difficultybar.setOnSeekBarChangeListener(this);
-        fm = getFragmentManager();
+        Navigation.findNavController(getActivity(),R.id.nav_host).getGraph().setStartDestination(R.id.hovedmenuFragment);
         dropdown = mitfragment.findViewById(R.id.category);
         String[] items = new String[]{MyEnum.DEFAULT.toString(), MyEnum.HARRYPOTTER.toString(), MyEnum.STARWARS.toString(), MyEnum.FOOD.toString(), MyEnum.WordsDR.toString(), MyEnum.MyWord.toString()};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
@@ -49,13 +52,13 @@ public class HovedmenuFragment extends android.app.Fragment implements View.OnCl
 
     public void onClick(View v) {
         if (v == playbutton) {
+            TheGameState.GameLogic.setGameinprogress(false);
+            TheGameState.timewhendestroyed=0;
             if (temp != MyEnum.MyWord) {
-                GameFragment gamefragment = new GameFragment();
-                gamefragment.setArguments(bundle);
-                fm.beginTransaction().replace(R.id.mainactfragment, gamefragment)
-                        .addToBackStack(null)
-                        .commit();
+
+                NavHostFragment.findNavController(this).navigate(R.id.action_hovedmenuFragment_to_gameFragment,bundle);
             }
+
             if (temp == MyEnum.MyWord) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle("Type your word");
@@ -81,13 +84,8 @@ public class HovedmenuFragment extends android.app.Fragment implements View.OnCl
                     }
                     bundle.putString("myword", detskalværeord);
                     System.out.println(detskalværeord);
-                    GameFragment gamefragment = new GameFragment();
 
-
-                    gamefragment.setArguments(bundle);
-                    fm.beginTransaction().replace(R.id.mainactfragment, gamefragment)
-                            .addToBackStack(null)
-                            .commit();
+                    NavHostFragment.findNavController(this).navigate(R.id.action_hovedmenuFragment_to_gameFragment,bundle);
 
 
                 });
