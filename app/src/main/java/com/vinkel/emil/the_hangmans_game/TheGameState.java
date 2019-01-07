@@ -37,8 +37,8 @@ public class TheGameState {
 
         ArrayList<Player> thelist = new ArrayList<>();
         for (Object s : sorted.keySet()) {
-
-            thelist.add(new Player(prefs.getString(s.toString(), "def"), sorted.get(s.toString())));
+           // Player(String name, String word, int time, int score)
+            thelist.add(new Player(prefs.getString(s.toString(), "def"),prefs.getString(s.toString()+"o","def"),prefs.getInt(s.toString()+"t",0), sorted.get(s.toString())));
         }
         return thelist;
 

@@ -6,6 +6,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
@@ -209,7 +210,9 @@ public class GameFragment extends android.support.v4.app.Fragment implements Vie
                 break;
         }
         getView().startAnimation(ryst);
-        myvib.vibrate(VibrationEffect.createOneShot(200, 255));
+        if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            myvib.vibrate(VibrationEffect.createOneShot(200, 255));
+        }
         Animation = (AnimationDrawable) aniview.getBackground();
         Animation.start();
     }

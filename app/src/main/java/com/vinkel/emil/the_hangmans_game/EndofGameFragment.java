@@ -1,13 +1,8 @@
 package com.vinkel.emil.the_hangmans_game;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.graphics.Color;
-import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
@@ -19,8 +14,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -64,9 +57,11 @@ public class EndofGameFragment extends Fragment implements View.OnClickListener 
         if(TheGameState.GameLogic.erSpilletTabt()){
             giffy.setBackgroundResource(R.drawable.lost);
             title.setText("You have lost!");
-            String forkerte= String.join("+", TheGameState.GameLogic.getForkertebogstaver());
+            if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                String forkerte = String.join("+", TheGameState.GameLogic.getForkertebogstaver());
 
-            gameinfo.setText("The word was: " +TheGameState.GameLogic.getOrdet() + "\nWrong letters:\n" + forkerte);
+                gameinfo.setText("The word was: " + TheGameState.GameLogic.getOrdet() + "\nWrong letters:\n" + forkerte);
+            }
 
         }
         restart=new Bundle();
@@ -103,12 +98,16 @@ public class EndofGameFragment extends Fragment implements View.OnClickListener 
             Set navneSet = TheGameState.prefs.getStringSet("hscorenavne", new HashSet<>());
             String playernavn = "player" + navneSet.size();
             String playerscore = ("player" + navneSet.size()) + "s";
+            String playerword = ("player"+navneSet.size())+"o";
+            String playertime = ("player"+navneSet.size())+"t";
+
             System.out.println("navn i end: "+playernavn+"int navn i end: "+playerscore);
 
             navneSet.add(playernavn);
 
             TheGameState.prefs.edit().putString(playernavn, navn).commit();
-
+            TheGameState.prefs.edit().putString(playerword, TheGameState.GameLogic.getOrdet()).commit();
+            TheGameState.prefs.edit().putInt(playertime, tid).commit();
             TheGameState.prefs.edit().putInt(playerscore, thescore).commit();
             TheGameState.prefs.edit().putStringSet("hscorenavne", navneSet).commit();
 
