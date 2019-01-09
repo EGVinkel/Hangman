@@ -29,6 +29,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import nl.dionsegijn.konfetti.KonfettiView;
 import nl.dionsegijn.konfetti.models.Shape;
 import nl.dionsegijn.konfetti.models.Size;
+
 import static com.vinkel.emil.the_hangmans_game.R.color;
 import static com.vinkel.emil.the_hangmans_game.R.drawable;
 import static com.vinkel.emil.the_hangmans_game.R.id;
@@ -221,15 +222,15 @@ public class GameFragment extends android.support.v4.app.Fragment implements Vie
     private void makeConfetti() {
         konfettiview.getActiveSystems().clear();
         konfettiview.build()
-                .addColors(Color.WHITE, Color.RED, Color.YELLOW, Color.BLUE, Color.GREEN)
+                .addColors(Color.WHITE, Color.rgb(255,204,255) ,Color.rgb(51,53,255), Color.rgb(153,255,153),Color.rgb(255,255,102),Color.rgb(255,255,51))
                 .setDirection(6.0, 359.0)
                 .setSpeed(1f, 5f)
                 .setFadeOutEnabled(true)
                 .setTimeToLive(3000L)
                 .addShapes(Shape.RECT, Shape.CIRCLE)
-                .addSizes(new Size(3, 5))
+                .addSizes(new Size(4, 5))
                 .setPosition(-50f, konfettiview.getWidth() + 50f, -200f, -50f)
-                .streamFor(300, 5000L);
+                .streamFor(1000, 5000L);
     }
 
     private void soundeffects() {

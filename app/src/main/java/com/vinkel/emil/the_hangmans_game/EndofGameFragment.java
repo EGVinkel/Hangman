@@ -62,7 +62,9 @@ public class EndofGameFragment extends Fragment implements View.OnClickListener 
 
                 gameinfo.setText("The word was: " + TheGameState.GameLogic.getOrdet() + "\nWrong letters:\n" + forkerte);
             }
-
+            else if(!(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)){
+                gameinfo.setText("The word was: " + TheGameState.GameLogic.getOrdet());
+            }
         }
         restart=new Bundle();
         restart.putSerializable("cat", getArguments().getSerializable("cat"));
